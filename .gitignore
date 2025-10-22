@@ -1,0 +1,7 @@
+
+# Ignore installed tmux plugins, but track TPM submodule
+tmux/.config/tmux/plugins/*
+!tmux/.config/tmux/plugins/tpm
+
+
+
