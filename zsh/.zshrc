@@ -159,6 +159,8 @@ alias vim='nvim'
 alias grep='rg'
 alias kswitchcontext='kubectl config use-context $(kubectl config get-contexts -o name | fzf)'
 alias tmux-keys='tmux list-keys | fzf'
+alias tmux='tmux -f ~/.config/tmux/tmux.conf'
+alias tmuxxx='tmux'
 
 
 #### Functions ####
