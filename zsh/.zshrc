@@ -296,6 +296,9 @@ _fzf_comprun() {
 # - $ZSH_CUSTOM/aliases.zsh
 # - $ZSH_CUSTOM/macos.zsh
 
+# Git ssh-agent
+eval $(keychain --eval --agents ssh ~/.ssh/id_ed25519)
+
 # TODO: Obsidian Note:
 # export SECONDBRAIN="/Users/darren/Library/Mobile Documents/iCloud~md~obsidian/Documents/SecondBrain"
 
