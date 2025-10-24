@@ -6,4 +6,16 @@ My personal doffiles for linux
 
 To install this run this script:
 
-- install git-delta
+```bash
+pending
+```
+
+### Prerequisite
+
+pacman package to install:
+
+- git-delta
+- stow
+- thefuck
+- tmux
+-
