@@ -1,0 +1,6 @@
+[submodule "lazyvim"]
+	path = lazyvim
+	url = git@github.com:DarrenVictoriano/lazyvim.git
+[submodule "tmux"]
+	path = tmux
+	url = git@github.com:DarrenVictoriano/tmux.git
