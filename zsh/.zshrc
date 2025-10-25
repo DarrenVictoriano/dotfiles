@@ -237,6 +237,13 @@ function zsh-funcs() {
 }
 ### End of Functions ####
 
+# OS specific functions
+case "$OSTYPE" in
+  linux*)  [ -f "$HOME/.config/zsh/omarchy_bash" ] && source "$HOME/.config/zsh/omarchy_bash" ;;
+  darwin*) [ -f "$HOME/.config/zsh/macos_functions" ] && source "$HOME/.config/zsh/macos_functions" ;;
+esac
+
+
 # Add custom Alias and Functions if exist
 [ -f $HOME/.config/zsh/zsh_aliases ] && source $HOME/.config/zsh/zsh_aliases
 [ -f $HOME/.config/zsh/zsh_functions ] && source $HOME/.config/zsh/zsh_functions
@@ -296,7 +303,8 @@ _fzf_comprun() {
 # - $ZSH_CUSTOM/macos.zsh
 
 # Git ssh-agent
-eval $(keychain ~/.ssh/id_ed25519)
+eval "$(keychain ~/.ssh/id_ed25519)"
+eval "$(mise activate zsh)"
 
 # TODO: Obsidian Note:
 # export SECONDBRAIN="/Users/darren/Library/Mobile Documents/iCloud~md~obsidian/Documents/SecondBrain"

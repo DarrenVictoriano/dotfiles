@@ -19,6 +19,12 @@ pacman package to install:
 - thefuck
 - tmux
 - keychain
+- xclip
+
+mise install:
+
+- node: lts
+- golang
 
 ### bat Theme setup
 
