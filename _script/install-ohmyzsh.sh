@@ -63,6 +63,6 @@ install_plugin "https://github.com/superbrothers/zsh-kubectl-prompt.git" \
                "$ZSH_CUSTOM/plugins/zsh-kubectl-prompt" \
                "zsh-kubectl-prompt"
 
-echo
+echo ""
 echo "install-ohmyzsh.sh completed successfully!"
 
