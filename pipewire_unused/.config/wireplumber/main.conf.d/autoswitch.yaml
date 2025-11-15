@@ -1,0 +1,18 @@
+# Auto-switch to Bluetooth and USB audio devices, but ignore PCI/HDMI ALSA outputs
+# to check all audio: wpctl status
+# to check sink name: pactl list sinks short
+#
+# Optional: tell the Lua language server to ignore undefined-global/undefined-field for this file
+# Remove the next line if you prefer not to disable diagnostics in this file.
+# @diagnostic disable: undefined-global, undefined-field
+#
+# Auto-switch to Bluetooth and USB audio devices, but ignore PCI/HDMI ALSA outputs.
+# Use rawget(_G, ...) to avoid language-server warnings about undefined fields on _G.
+
+# ~/.config/wireplumber/main.conf.d/50-autoswitch.yaml
+rules:
+    - matches:
+          - device.name: "bluez_output.*"
+          - device.name: "alsa_output.usb.*"
+      apply-properties:
+          device.profile.auto-switch: true
