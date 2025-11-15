@@ -23,10 +23,10 @@
         "format": "{icon}",
         "format-icons": {
             "default": "",
-            "1": "A",
-            "2": "S",
-            "3": "D",
-            "4": "F",
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
             "active": "󱓻",
         },
         "persistent-workspaces": {
