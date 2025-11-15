@@ -14,12 +14,6 @@ pending
 
 pacman package to install:
 
-- git-delta
-- stow
-- thefuck
-- tmux
-- keychain
-- xclip
 
 mise install:
 
