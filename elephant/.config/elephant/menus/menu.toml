@@ -1,0 +1,4 @@
+[[entries]]
+text = "Disconnect DualSense"
+icon = "input-gaming"
+actions = { "dc-dualsense" = "bash -c 'bt-device -d 90:B6:85:57:67:9B && notify-send \"DualSense disconnected\"'" }
