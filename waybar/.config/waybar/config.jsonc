@@ -23,10 +23,10 @@
         "format": "{icon}",
         "format-icons": {
             "default": "",
-            "1": "A",
-            "2": "S",
-            "3": "D",
-            "4": "F",
+            "1": "",
+            "2": "",
+            "3": "",
+            "4": "",
             "active": "󱓻",
         },
         "persistent-workspaces": {
@@ -56,10 +56,34 @@
         "format": "󰍛",
         "on-click": "xdg-terminal-exec btop",
     },
+    // "clock": {
+    //     "format": "{:L%A %I:%M %p}",
+    //     "format-alt": "{:L%B %d %Y}",
+    //     "tooltip": false,
+    //     "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select",
+    // },
     "clock": {
         "format": "{:L%A %I:%M %p}",
-        "format-alt": "{:L%B %d %Y}",
-        "tooltip": false,
+        // "format-alt": "{:L%B %d %Y}",
+        "tooltip-format": "<tt><big><big>{calendar}</big></big></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            // "weeks-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#ffead3'><b>{}</b></span>",
+                "days": "<span color='#ecc6d9'>{}</span>",
+                "weeks": "<span color='#99ffdd'><b>W{}</b></span>",
+                "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
+                "today": "<span color='#ff6699'><b><u>{}</u></b></span>",
+            },
+        },
+        "actions": {
+            "on-click-middle": "mode",
+            "on-scroll-up": "shift_up",
+            "on-scroll-down": "shift_down",
+        },
         "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select",
     },
     "network": {
