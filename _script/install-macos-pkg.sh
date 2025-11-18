@@ -102,3 +102,6 @@ brew tap homebrew/cask-fonts
 install_brew_cask "font-caskaydia-mono-nerd-font"
 install_brew_cask "font-meslo-for-powerlevel10k"
 install_brew_cask "font-fira-code-nerd-font"
+
+# Move hammerspoon config location
+defaults write org.hammerspoon.Hammerspoon MJConfigFile "$HOME/.config/hammerspoon/init.lua"
