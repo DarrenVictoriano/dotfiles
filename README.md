@@ -1,6 +1,6 @@
 # dotfiles
 
-My personal doffiles for linux
+My personal doffiles for linux and macos
 
 ## Installation
 
