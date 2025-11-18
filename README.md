@@ -1,4 +1,4 @@
-# dotfiles-linux
+# dotfiles
 
 My personal doffiles for linux
 
