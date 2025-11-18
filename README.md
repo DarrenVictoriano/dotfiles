@@ -7,23 +7,7 @@ My personal doffiles for linux
 To install this run this script:
 
 ```bash
-pending
-```
-
-### Prerequisite
-
-pacman package to install:
-
-
-mise install:
-
-- node: lts
-- golang
-
-script permissions
-
-```bash
-chmod +x ~/.config/hypr/helpers/toggle_floating.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/DarrenVictoriano/dotfiles/main/install.sh)"
 ```
 
 ### bat Theme setup

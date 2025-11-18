@@ -1,11 +1,11 @@
 # Dynamic theme colors
 # config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
+config-file = ?"~/.config/ghostty/omarchy-config"
 
 shell-integration = zsh
 
 font-family = "CaskaydiaMono Nerd Font"
 font-style = Regular
-# font-size = 10
 
 theme = "TokyoNight Storm"
 background-opacity = 1
