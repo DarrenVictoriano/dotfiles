@@ -129,7 +129,7 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 # FZF: let fzf have preview and use eza for dir and bat for files
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 # export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_CTRL_T_OPTS="--preview '$HOME/.config/zsh/fzf_preview.sh {}'"
+export FZF_CTRL_T_OPTS="--preview '$HOME/.config/zsh/fzf-preview.sh {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # bat theme
@@ -144,7 +144,7 @@ alias la='ls -a'
 alias cat='bat'
 alias lt='eza --tree --level=3 --git --group-directories-first --sort=extension'
 alias lta='lt -a'
-alias ff="fzf --preview '$HOME/.config/zsh/fzf_preview.sh {}'"
+alias ff="fzf --preview '$HOME/.config/zsh/fzf-preview.sh {}'"
 alias fd='fd -H --exclude .git'
 alias icat='kitty icat'
 alias cd='z'
@@ -180,8 +180,8 @@ function git-keys() {
 
 # OS specific functions
 case "$OSTYPE" in
-  linux*)  [ -f "$HOME/.config/zsh/omarchy.zsh" ] && source "$HOME/.config/zsh/omarchy.zsh" ;;
-  darwin*) [ -f "$HOME/.config/zsh/macos.zsh" ] && source "$HOME/.config/zsh/macos.zsh" ;;
+  linux*)  [ -f "$HOME/.config/zsh/omarchy-func.zsh" ] && source "$HOME/.config/zsh/omarchy-func.zsh" ;;
+  darwin*) [ -f "$HOME/.config/zsh/macos-func.zsh" ] && source "$HOME/.config/zsh/macos-func.zsh" ;;
 esac
 
 
@@ -190,7 +190,7 @@ esac
 [ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
 
 # FZF Theme
-[ -f "$HOME/.config/zsh/fzf_tokyonight_storm.zsh" ] && source "$HOME/.config/zsh/fzf_tokyonight_storm.zsh"
+[ -f "$HOME/.config/zsh/fzf-tokyonight-storm.zsh" ] && source "$HOME/.config/zsh/fzf-tokyonight-storm.zsh"
 
 
 #### FZF customs ####
@@ -243,24 +243,12 @@ _fzf_comprun() {
 # - $ZSH_CUSTOM/aliases.zsh
 # - $ZSH_CUSTOM/macos.zsh
 
-# Git ssh-agent
-eval "$(keychain --eval --agents ssh ~/.ssh/id_ed25519)"
-eval "$(mise activate zsh)"
+# OS specific evals
+case "$OSTYPE" in
+  linux*)  [ -f "$HOME/.config/zsh/omarchy-eval.zsh" ] && source "$HOME/.config/zsh/omarchy-eval.zsh" ;;
+  darwin*) [ -f "$HOME/.config/zsh/macos-eval.zsh" ] && source "$HOME/.config/zsh/macos-eval.zsh" ;;
+esac
 
-# TODO: Obsidian Note:
-# export SECONDBRAIN="/Users/darren/Library/Mobile Documents/iCloud~md~obsidian/Documents/SecondBrain"
-
-# TODO: pyenv setup
-# export PYENV_ROOT="$HOME/.pyenv"
-# export PATH="$PYENV_ROOT/bin:$PATH"
-# eval "$(pyenv init --path)"
-# eval "$(pyenv init -)"
-
-# TODO: C++ package manager path
-# export VCPKG_DEFAULT_TRIPLET="arm64-osx"
-# export VCPKG_ROOT="$HOME/code/cpp/vcpkg"
-# export VCPKG_TOOLCHAIN="$VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake"
-# export PATH="$VCPKG_ROOT:$PATH"
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f "$HOME/.config/zsh/p10k.zsh" ]] || source "$HOME/.config/zsh/p10k.zsh"
