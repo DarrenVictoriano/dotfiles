@@ -5,7 +5,7 @@ shell-integration = zsh
 
 font-family = "CaskaydiaMono Nerd Font"
 font-style = Regular
-font-size = 10
+# font-size = 10
 
 theme = "TokyoNight Storm"
 background-opacity = 1

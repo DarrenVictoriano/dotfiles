@@ -177,17 +177,16 @@ function git-keys() {
 }
 
 ### End of Functions ####
+# Add common alias and functions
+[ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
+[ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
+
 
 # OS specific functions
 case "$OSTYPE" in
   linux*)  [ -f "$HOME/.config/zsh/omarchy-func.zsh" ] && source "$HOME/.config/zsh/omarchy-func.zsh" ;;
   darwin*) [ -f "$HOME/.config/zsh/macos-func.zsh" ] && source "$HOME/.config/zsh/macos-func.zsh" ;;
 esac
-
-
-# Add custom Alias and Functions if exist
-[ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
-[ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
 
 # FZF Theme
 [ -f "$HOME/.config/zsh/fzf-tokyonight-storm.zsh" ] && source "$HOME/.config/zsh/fzf-tokyonight-storm.zsh"
