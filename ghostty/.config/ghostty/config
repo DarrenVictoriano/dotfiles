@@ -1,6 +1,6 @@
 # Dynamic theme colors
 # config-file = ?"~/.config/omarchy/current/theme/ghostty.conf"
-config-file = ?"~/.config/ghostty/omarchy-config"
+config-file = ?"~/.config/ghosttymarchy/omarchy-config"
 
 shell-integration = zsh
 
