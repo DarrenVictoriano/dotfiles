@@ -2,12 +2,16 @@
 
 set -euo pipefail
 
-# --------- Step 0: Variables ---------
+# -----------------------------
+# Variables
+# -----------------------------
 REPO_URL="git@github.com:DarrenVictoriano/dotfiles.git"
 TARGET_DIR="$HOME/code/dotfiles"
 BIN_DIR="$TARGET_DIR/_bin"
 
-# --------- Step 1: Clone repo if not exists ---------
+# -----------------------------
+# Clone repo if not exists
+# -----------------------------
 if [ ! -d "$TARGET_DIR" ]; then
   echo "Creating parent directory for dotfiles..."
   mkdir -p "$(dirname "$TARGET_DIR")"
@@ -20,14 +24,18 @@ fi
 
 cd "$TARGET_DIR"
 
-# --------- Step 2: Run common scripts ---------
+# -----------------------------
+# Run common scripts
+# -----------------------------
 echo "Running install-ohmyzsh.sh..."
 bash "$BIN_DIR/install-ohmyzsh.sh"
 
 echo "Running install-common.sh..."
 bash "$BIN_DIR/install-common.sh"
 
-# --------- Step 3: Detect OS and run OS-specific scripts ---------
+# -----------------------------
+# Run OS-specific scripts
+# -----------------------------
 OS_TYPE="$(uname -s)"
 case "$OS_TYPE" in
 Linux)
@@ -54,62 +62,56 @@ Darwin)
   ;;
 esac
 
-# --------- Step 4: Stow dotfiles ---------
+# -----------------------------
+# Stow dotfiles
+# -----------------------------
 echo "Running GNU Stow for dotfiles..."
+common_pkgs=(
+  bat
+  ghostty
+  git
+  lazyvim
+  tmux
+  zsh
+)
 
+linux_pkgs=(
+  elephant
+  ghosttymarchy
+  hyperland
+  mise
+  swayosd
+  walker
+  waybar
+)
+
+mac_pkgs=(
+  aerospace
+  hammerspoon
+  hushlogin
+  ideavimrc
+  karabiner
+)
+
+# Determine which set to use
 if [ "$OS_TYPE" = "Linux" ] && [ -f /etc/arch-release ]; then
-  linux_pkgs=(
-    bat
-    elephant
-    ghostty
-    git
-    hyperland
-    lazyvim
-    mise
-    swayosd
-    tmux
-    walker
-    waybar
-    zsh
-  )
-
-  # Iterate over the array
-  for pkg in "${linux_pkgs[@]}"; do
-    echo "Stowing $pkg..."
-    stow -t ~ "$pkg"
-  done
-
+  pkgs=("${common_pkgs[@]}" "${linux_pkgs[@]}")
 elif [ "$OS_TYPE" = "Darwin" ]; then
-  mac_pkgs=(
-    aerospace
-    bat
-    ghostty
-    git
-    hammerspoon
-    hushlogin
-    ideavimrc
-    karabiner
-    lazyvim
-    tmux
-    zsh
-  )
-
-  # Map of package-specific stow args
-  declare -A mac_stow_args=(
-    [ghostty]="--ignore='omarchy-config'"
-  )
-
-  for pkg in "${mac_pkgs[@]}"; do
-    echo "Stowing $pkg..."
-    if [[ -n "${mac_stow_args[$pkg]:-}" ]]; then
-      stow -t ~ "${mac_stow_args[$pkg]}" "$pkg"
-    else
-      stow -t ~ "$pkg"
-    fi
-  done
+  pkgs=("${common_pkgs[@]}" "${mac_pkgs[@]}")
+else
+  echo "Unsupported OS: $OS_TYPE"
+  exit 1
 fi
 
-# --------- Step 5: Run Linux-only script ---------
+# Stow concatinated pkgs
+for pkg in "${pkgs[@]}"; do
+  echo "Stowing $pkg..."
+  stow -t ~ "$pkg"
+done
+
+# -----------------------------
+# Run mise for linux
+# -----------------------------
 if [ "$OS_TYPE" = "Linux" ] && [ -f /etc/arch-release ]; then
   echo "Running install-mise-pkg.sh..."
   bash "$BIN_DIR/install-mise-pkg.sh"
