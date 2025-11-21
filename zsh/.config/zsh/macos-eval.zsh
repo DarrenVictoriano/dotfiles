@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 export SECONDBRAIN="/Users/darren/Library/Mobile Documents/iCloud~md~obsidian/Documents/SecondBrain"
 
 export PYENV_ROOT="$HOME/.pyenv"

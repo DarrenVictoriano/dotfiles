@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 function history-fzf() {
   local selected
   selected=$(history | awk '{ $1=""; print substr($0,2) }' | fzf --height 40% --reverse --border --ansi) || return

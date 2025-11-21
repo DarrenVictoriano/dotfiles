@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Function to install a package on Linux (Arch/Omarchy)
 install_linux_pkg() {
