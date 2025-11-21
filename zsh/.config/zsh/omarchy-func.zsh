@@ -1,3 +1,5 @@
+#!/usr/bin/env zsh
+
 # Open Finder
 function open() {
   xdg-open "$@" >/dev/null 2>&1 &

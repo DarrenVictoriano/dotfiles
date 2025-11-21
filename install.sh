@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 set -euo pipefail
 
@@ -19,7 +19,9 @@ if [ ! -d "$TARGET_DIR" ]; then
   echo "Cloning dotfiles repo..."
   git clone --recurse-submodules "$REPO_URL" "$TARGET_DIR"
 else
-  echo "Dotfiles repo already exists at $TARGET_DIR"
+  echo "Updating existing dotfiles repo..."
+  git -C "$TARGET_DIR" pull --rebase
+  git -C "$TARGET_DIR" submodule update --init --recursive
 fi
 
 cd "$TARGET_DIR"
@@ -103,10 +105,26 @@ else
   exit 1
 fi
 
-# Stow concatinated pkgs
+# Stow concatenated pkgs
 for pkg in "${pkgs[@]}"; do
   echo "Stowing $pkg..."
-  stow -t ~ "$pkg"
+
+  # Iterate over *all files* in the package
+  while IFS= read -r file; do
+    # Compute relative path (everything after "$pkg/")
+    rel_path="${file#"${pkg}"/}"
+    target="$HOME/$rel_path"
+
+    # If the target exists AND is not a symlink, back it up
+    if [ -e "$target" ] && [ ! -L "$target" ]; then
+      echo "Backing up: $target -> ${target}.bak"
+      mkdir -p "$(dirname "$target")" # ensure parent dirs exist
+      mv "$target" "${target}.bak"
+    fi
+  done < <(find "$pkg" -type f)
+
+  # Now safely stow the package
+  stow -R -t "$HOME" "$pkg"
 done
 
 # -----------------------------
