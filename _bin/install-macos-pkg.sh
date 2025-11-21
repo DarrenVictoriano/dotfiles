@@ -79,6 +79,7 @@ install_brew_pkg "tmux"
 install_brew_pkg "nvim"
 install_brew_pkg "hugo"
 install_brew_pkg "imagemagick"
+install_brew_pkg "llvm"
 
 # GUI apps
 install_brew_cask "ghostty"
