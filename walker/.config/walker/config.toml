@@ -15,6 +15,7 @@ max_results = 256 # 256 should be enough for everyone
 default = [
   "desktopapplications",
   "websearch",
+  "menus",
 ] # providers to be queried by default
 
 [[providers.prefixes]]
