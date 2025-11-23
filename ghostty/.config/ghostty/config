@@ -23,3 +23,6 @@ macos-titlebar-style = hidden
 macos-titlebar-proxy-icon = hidden
 
 keybind = cmd+backspace=esc:w
+
+# Slowdown mouse scrolling
+mouse-scroll-multiplier = 0.95
