@@ -4,4 +4,6 @@ tmux/.config/tmux/plugins/*
 !tmux/.config/tmux/plugins/tpm
 
 
+# ignore shaders
+hyperland/.config/hypr/shaders/
 
