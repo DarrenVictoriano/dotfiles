@@ -6,7 +6,7 @@ set -euo pipefail
 # Variables
 # -----------------------------
 REPO_URL="git@github.com:DarrenVictoriano/dotfiles.git"
-TARGET_DIR="$HOME/code/dotfiles"
+TARGET_DIR="$HOME/Code/dotfiles"
 BIN_DIR="$TARGET_DIR/_bin"
 
 # -----------------------------
