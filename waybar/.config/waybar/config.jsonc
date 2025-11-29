@@ -121,8 +121,9 @@
     "bluetooth": {
         "format": "",
         "format-disabled": "󰂲",
+        "format-off": "󰂲",
         "format-connected": "󰂱",
-    "format-no-controller": "",
+        "format-no-controller": "",
         "tooltip-format": "Devices connected: {num_connections}",
         "on-click": "omarchy-launch-bluetooth",
     },
