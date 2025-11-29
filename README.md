@@ -7,7 +7,7 @@ My personal doffiles for linux and macos
 To install this run this script:
 
 ```bash
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/DarrenVictoriano/dotfiles/main/install.sh)"
+curl -fsSL https://raw.githubusercontent.com/DarrenVictoriano/dotfiles/main/install.sh | bash
 ```
 
 ### bat Theme setup
