@@ -141,7 +141,8 @@ export BAT_THEME="Catppuccin Macchiato"
 alias refresh='source ~/.zshrc'
 alias ls='eza -lh --group-directories-first --icons=auto --sort=extension'
 alias la='ls -a'
-alias cat='bat'
+alias less='bat'
+alias cat='bat --paging=never'
 alias lt='eza --tree --level=3 --git --group-directories-first --sort=extension'
 alias lta='lt -a'
 alias ff="fzf --preview '$HOME/.config/zsh/fzf-preview.sh {}'"
