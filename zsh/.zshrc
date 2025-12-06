@@ -183,6 +183,13 @@ function git-keys() {
 [ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
 
 
+# OS specific alias
+case "$OSTYPE" in
+  linux*)  [ -f "$HOME/.config/zsh/omarchy-alias.zsh" ] && source "$HOME/.config/zsh/omarchy-alias.zsh" ;;
+  darwin*) [ -f "$HOME/.config/zsh/macos-alias.zsh" ] && source "$HOME/.config/zsh/macos-alias.zsh" ;;
+esac
+
+
 # OS specific functions
 case "$OSTYPE" in
   linux*)  [ -f "$HOME/.config/zsh/omarchy-func.zsh" ] && source "$HOME/.config/zsh/omarchy-func.zsh" ;;
