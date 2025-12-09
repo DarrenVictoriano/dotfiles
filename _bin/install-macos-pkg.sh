@@ -106,3 +106,48 @@ install_brew_cask "font-fira-code-nerd-font"
 
 # Move hammerspoon config location
 defaults write org.hammerspoon.Hammerspoon MJConfigFile "$HOME/.config/hammerspoon/init.lua"
+
+# Finder: Hide hard drives on desktop
+defaults write com.apple.finder ShowHardDrivesOnDesktop -bool false
+
+# Finder: Hide removable media hard drives on desktop
+defaults write com.apple.finder ShowRemovableMediaOnDesktop -bool false
+
+# Finder: Show path bar
+defaults write com.apple.finder ShowPathbar -bool true
+
+# Finder: Show hidden files inside the finder
+defaults write com.apple.finder "AppleShowAllFiles" -bool true
+
+# Finder: Show Status Bar
+defaults write com.apple.finder "ShowStatusBar" -bool true
+
+# Finder: Set search scope to current folder
+defaults write com.apple.finder FXDefaultSearchScope -string "SCcf"
+
+# Finder: show full Unix path in the title
+defaults write com.apple.finder _FXShowPosixPathInTitle -bool YES
+
+# Dock: disable press and hold for vim motion
+defaults write NSGlobalDomain ApplePressAndHoldEnabled -bool false
+
+# Keyboard: Make key repeat faster
+defaults write NSGlobalDomain KeyRepeat -int 1         # normal minimum is 2 (30 ms)
+defaults write NSGlobalDomain InitialKeyRepeat -int 10 # normal minimum is 15 (225 ms)
+
+# MacOS: make dock auto-hide animation fast
+defaults write com.apple.dock autohide -bool true
+defaults write com.apple.dock autohide-delay -int 0
+defaults write com.apple.dock autohide-time-modifier -float 0.4
+# disable bouncing Dock icons (except Launchpad) for this account
+defaults write com.apple.dock no-bouncing -bool True
+
+# Drag windows with control command click https://www.reddit.com/r/MacOS/comments/k6hiwk/keyboard_modifier_to_simplify_click_drag_of/
+defaults write -g NSWindowShouldDragOnGesture YES
+
+# Disable the “Are you sure you want to open this application?” dialog
+defaults write com.apple.LaunchServices LSQuarantine -bool false
+
+# Thanks to: https://github.com/nikitabobko/dotfiles/blob/main/.script/macOsDefaults.sh
+
+killall Dock
