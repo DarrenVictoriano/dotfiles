@@ -135,4 +135,9 @@ if [ "$OS_TYPE" = "Linux" ] && [ -f /etc/arch-release ]; then
   bash "$BIN_DIR/install-mise-pkg.sh"
 fi
 
+# -----------------------------
+# symlink dynamic neovim theme
+# -----------------------------
+ln -snf "${HOME}/.config/omarchy/current/theme/neovim.lua" "${HOME}/.config/nvim/lua/plugins/theme.lua"
+
 echo "Dotfiles bootstrap completed successfully!"
