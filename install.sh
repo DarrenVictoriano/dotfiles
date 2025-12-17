@@ -2,6 +2,10 @@
 
 set -euo pipefail
 
+# TODO: for arch, we need to set zsh as shell before all these commands below.
+# echo "Running install-zsh.sh..."
+# bash "$BIN_DIR/install-zsh.sh"
+
 # -----------------------------
 # Variables
 # -----------------------------
@@ -46,9 +50,6 @@ Linux)
     echo "Detected Arch Linux"
     echo "Running install-linux-pkg.sh..."
     bash "$BIN_DIR/install-linux-pkg.sh"
-
-    echo "Running install-zsh.sh..."
-    bash "$BIN_DIR/install-zsh.sh"
   else
     echo "Linux detected but not Arch. Skipping Arch-specific scripts."
   fi
