@@ -206,16 +206,18 @@ export MANPAGER='nvim +Man!'
 # OS specific
 case "$OSTYPE" in
   linux*)  
-    [ -f "$CONFIG_DIR/omarchy-alias.zsh" ] && source "$CONFIG_DIR/omarchy-alias.zsh" ;;
-    [ -f "$CONFIG_DIR/omarchy-func.zsh" ] && source "$CONFIG_DIR/omarchy-func.zsh" ;;
-    [ -f "$CONFIG_DIR/omarchy-eval.zsh" ] && source "$CONFIG_DIR/omarchy-eval.zsh" ;;
+    [ -f "$CONFIG_DIR/omarchy-alias.zsh" ] && source "$CONFIG_DIR/omarchy-alias.zsh"
+    [ -f "$CONFIG_DIR/omarchy-func.zsh" ] && source "$CONFIG_DIR/omarchy-func.zsh"
+    [ -f "$CONFIG_DIR/omarchy-eval.zsh" ] && source "$CONFIG_DIR/omarchy-eval.zsh"
+    ;;
   darwin*) 
-    [ -f "$CONFIG_DIR/macos-alias.zsh" ] && source "$CONFIG_DIR/macos-alias.zsh" ;;
-    [ -f "$CONFIG_DIR/macos-func.zsh" ] && source "$CONFIG_DIR/macos-func.zsh" ;;
-    [ -f "$CONFIG_DIR/macos-eval.zsh" ] && source "$CONFIG_DIR/macos-eval.zsh" ;;
+    [ -f "$CONFIG_DIR/macos-alias.zsh" ] && source "$CONFIG_DIR/macos-alias.zsh"
+    [ -f "$CONFIG_DIR/macos-func.zsh" ] && source "$CONFIG_DIR/macos-func.zsh"
+    [ -f "$CONFIG_DIR/macos-eval.zsh" ] && source "$CONFIG_DIR/macos-eval.zsh"
+    ;;
 esac
 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f "$CONFIG_DIR/p10k.zsh" ]] || source "$CONFIG_DIR/p10k.zsh"
+[[ ! -f "$CONFIG/p10k.zsh" ]] || source "$CONFIG/p10k.zsh"
 
