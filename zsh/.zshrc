@@ -16,7 +16,6 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
-CONFIG_DIR="$HOME/.config/zsh"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -115,7 +114,7 @@ RPROMPT='%{$fg[blue]%}($(kubectl_prompt))%{$reset_color%}'
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 # fzf-git
-source $CONFIG_DIR/fzf-git.sh
+source $HOME/.config/zsh/fzf-git.sh
 
 # FZF: let fzf use fs instead of find
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
@@ -124,11 +123,11 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 # FZF: let fzf have preview and use eza for dir and bat for files
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 # export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_CTRL_T_OPTS="--preview '$CONFIG_DIR/fzf-preview.sh {}'"
+export FZF_CTRL_T_OPTS="--preview '$HOME/.config/zsh/fzf-preview.sh {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # FZF Theme
-[ -f "$CONFIG_DIR/fzf-tokyonight-storm.zsh" ] && source "$CONFIG_DIR/fzf-tokyonight-storm.zsh"
+[ -f "$HOME/.config/zsh/fzf-tokyonight-storm.zsh" ] && source "$HOME/.config/zsh/fzf-tokyonight-storm.zsh"
 
 #### FZF customs ####
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
@@ -199,25 +198,26 @@ export MANPAGER='nvim +Man!'
 
 
 # Common alias and functions
-[ -f "$CONFIG_DIR/aliases.zsh" ] && source "$CONFIG_DIR/aliases.zsh"
-[ -f "$CONFIG_DIR/func.zsh" ] && source "$CONFIG_DIR/func.zsh"
+[ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
+[ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
 
 
 # OS specific
 case "$OSTYPE" in
   linux*)  
-    [ -f "$CONFIG_DIR/omarchy-alias.zsh" ] && source "$CONFIG_DIR/omarchy-alias.zsh"
-    [ -f "$CONFIG_DIR/omarchy-func.zsh" ] && source "$CONFIG_DIR/omarchy-func.zsh"
-    [ -f "$CONFIG_DIR/omarchy-eval.zsh" ] && source "$CONFIG_DIR/omarchy-eval.zsh"
+    [ -f "$HOME/.config/zsh/omarchy-alias.zsh" ] && source "$HOME/.config/zsh/omarchy-alias.zsh"
+    [ -f "$HOME/.config/zsh/omarchy-func.zsh" ] && source "$HOME/.config/zsh/omarchy-func.zsh"
+    [ -f "$HOME/.config/zsh/omarchy-eval.zsh" ] && source "$HOME/.config/zsh/omarchy-eval.zsh"
     ;;
   darwin*) 
-    [ -f "$CONFIG_DIR/macos-alias.zsh" ] && source "$CONFIG_DIR/macos-alias.zsh"
-    [ -f "$CONFIG_DIR/macos-func.zsh" ] && source "$CONFIG_DIR/macos-func.zsh"
-    [ -f "$CONFIG_DIR/macos-eval.zsh" ] && source "$CONFIG_DIR/macos-eval.zsh"
+    [ -f "$HOME/.config/zsh/macos-alias.zsh" ] && source "$HOME/.config/zsh/macos-alias.zsh"
+    [ -f "$HOME/.config/zsh/macos-func.zsh" ] && source "$HOME/.config/zsh/macos-func.zsh"
+    [ -f "$HOME/.config/zsh/macos-eval.zsh" ] && source "$HOME/.config/zsh/macos-eval.zsh"
     ;;
 esac
 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f "$CONFIG/p10k.zsh" ]] || source "$CONFIG/p10k.zsh"
+# [[ ! -f "$CONFIG/p10k.zsh" ]] || source "$CONFIG/p10k.zsh"
+[[ ! -f "$HOME/.config/zsh/p10k.zsh" ]] || source "$HOME/.config/zsh/p10k.zsh"
 
