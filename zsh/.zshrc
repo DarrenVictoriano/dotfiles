@@ -16,6 +16,7 @@ export ZSH="$HOME/.oh-my-zsh"
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
 ZSH_THEME="powerlevel10k/powerlevel10k"
+CONFIG_DIR="$HOME/.config/zsh"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -107,21 +108,15 @@ function kubectl_prompt() {
 }
 RPROMPT='%{$fg[blue]%}($(kubectl_prompt))%{$reset_color%}'
 
-# CLI Tools
-# enable thefuck
-eval $(thefuck --alias)
+##############################
+########## FZF Setup #########
+##############################
+
 # Set up fzf key bindings and fuzzy completion
 source <(fzf --zsh)
 # fzf-git
-source $HOME/.config/zsh/fzf-git.sh
-# zoxide for better cd
-eval "$(zoxide init zsh)"
+source $CONFIG_DIR/fzf-git.sh
 
-# Bind Keys
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
-
-# Exports
 # FZF: let fzf use fs instead of find
 export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
@@ -129,76 +124,11 @@ export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git
 # FZF: let fzf have preview and use eza for dir and bat for files
 show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
 # export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_CTRL_T_OPTS="--preview '$HOME/.config/zsh/fzf-preview.sh {}'"
+export FZF_CTRL_T_OPTS="--preview '$CONFIG_DIR/fzf-preview.sh {}'"
 export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
-# bat theme
-export BAT_THEME="Catppuccin Macchiato"
-
-
-#### Alias ####
-# For a full list of active aliases, run `alias`.
-alias refresh='source ~/.zshrc'
-alias ls='eza -lh --group-directories-first --icons=auto --sort=extension'
-alias la='ls -a'
-alias less='bat'
-alias cat='bat --paging=never'
-alias lt='eza --tree --level=3 --git --group-directories-first --sort=extension'
-alias lta='lt -a'
-alias ff="fzf --preview '$HOME/.config/zsh/fzf-preview.sh {}'"
-alias fd='fd -H --exclude .git'
-alias icat='kitty icat'
-alias cd='z'
-alias k="kubectl"
-alias del="trash"
-alias diff='git diff --no-index'
-alias f='fuck'
-alias fman='compgen -c | fzf | xargs man'
-alias ftldr='compgen -c | fzf | xargs tldr'
-alias vim='nvim'
-# alias grep='rg'
-alias kswitchcontext='kubectl config use-context $(kubectl config get-contexts -o name | fzf)'
-alias tmux-keys='tmux list-keys | fzf'
-alias tmux='tmux -f ~/.config/tmux/tmux.conf'
-
-
-#### Functions ####
-function git-keys() {
-	# show git aliases
-    # Assuming Oh My Zsh is installed in the default location
-    git_plugin_file="$HOME/.oh-my-zsh/plugins/git/git.plugin.zsh"
-    
-    # Check if the plugin file exists
-    if [[ -f "$git_plugin_file" ]]; then
-        # Use grep to extract lines starting with "alias"
-        grep "^alias" "$git_plugin_file" | fzf
-    else
-        echo "Git plugin file not found."
-    fi
-}
-
-### End of Functions ####
-# Add common alias and functions
-[ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
-[ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
-
-
-# OS specific alias
-case "$OSTYPE" in
-  linux*)  [ -f "$HOME/.config/zsh/omarchy-alias.zsh" ] && source "$HOME/.config/zsh/omarchy-alias.zsh" ;;
-  darwin*) [ -f "$HOME/.config/zsh/macos-alias.zsh" ] && source "$HOME/.config/zsh/macos-alias.zsh" ;;
-esac
-
-
-# OS specific functions
-case "$OSTYPE" in
-  linux*)  [ -f "$HOME/.config/zsh/omarchy-func.zsh" ] && source "$HOME/.config/zsh/omarchy-func.zsh" ;;
-  darwin*) [ -f "$HOME/.config/zsh/macos-func.zsh" ] && source "$HOME/.config/zsh/macos-func.zsh" ;;
-esac
-
 # FZF Theme
-[ -f "$HOME/.config/zsh/fzf-tokyonight-storm.zsh" ] && source "$HOME/.config/zsh/fzf-tokyonight-storm.zsh"
-
+[ -f "$CONFIG_DIR/fzf-tokyonight-storm.zsh" ] && source "$CONFIG_DIR/fzf-tokyonight-storm.zsh"
 
 #### FZF customs ####
 # Use fd (https://github.com/sharkdp/fd) for listing path candidates.
@@ -227,8 +157,25 @@ _fzf_comprun() {
     *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
   esac
 }
-#### End of FZF ####
+##############################
+######### End of FZF #########
+##############################
 
+# zoxide for better cd
+eval "$(zoxide init zsh)"
+
+# bat theme
+export BAT_THEME="Catppuccin Macchiato"
+
+# Bind Keys
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
+
+# Enable thefuck
+eval $(thefuck --alias)
+
+# Manpages to use nvim
+export MANPAGER='nvim +Man!'
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -250,13 +197,25 @@ _fzf_comprun() {
 # - $ZSH_CUSTOM/aliases.zsh
 # - $ZSH_CUSTOM/macos.zsh
 
-# OS specific evals
+
+# Common alias and functions
+[ -f "$CONFIG_DIR/aliases.zsh" ] && source "$CONFIG_DIR/aliases.zsh"
+[ -f "$CONFIG_DIR/func.zsh" ] && source "$CONFIG_DIR/func.zsh"
+
+
+# OS specific
 case "$OSTYPE" in
-  linux*)  [ -f "$HOME/.config/zsh/omarchy-eval.zsh" ] && source "$HOME/.config/zsh/omarchy-eval.zsh" ;;
-  darwin*) [ -f "$HOME/.config/zsh/macos-eval.zsh" ] && source "$HOME/.config/zsh/macos-eval.zsh" ;;
+  linux*)  
+    [ -f "$CONFIG_DIR/omarchy-alias.zsh" ] && source "$CONFIG_DIR/omarchy-alias.zsh" ;;
+    [ -f "$CONFIG_DIR/omarchy-func.zsh" ] && source "$CONFIG_DIR/omarchy-func.zsh" ;;
+    [ -f "$CONFIG_DIR/omarchy-eval.zsh" ] && source "$CONFIG_DIR/omarchy-eval.zsh" ;;
+  darwin*) 
+    [ -f "$CONFIG_DIR/macos-alias.zsh" ] && source "$CONFIG_DIR/macos-alias.zsh" ;;
+    [ -f "$CONFIG_DIR/macos-func.zsh" ] && source "$CONFIG_DIR/macos-func.zsh" ;;
+    [ -f "$CONFIG_DIR/macos-eval.zsh" ] && source "$CONFIG_DIR/macos-eval.zsh" ;;
 esac
 
 
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f "$HOME/.config/zsh/p10k.zsh" ]] || source "$HOME/.config/zsh/p10k.zsh"
+[[ ! -f "$CONFIG_DIR/p10k.zsh" ]] || source "$CONFIG_DIR/p10k.zsh"
 
