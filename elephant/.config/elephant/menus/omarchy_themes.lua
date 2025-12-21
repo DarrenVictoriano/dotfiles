@@ -1,1 +1,1 @@
-/home/darren/.local/share/omarchy/default/elephant/omarchy_themes.lua
+/home/mystery/.local/share/omarchy/default/elephant/omarchy_themes.lua
