@@ -107,128 +107,24 @@ function kubectl_prompt() {
 }
 RPROMPT='%{$fg[blue]%}($(kubectl_prompt))%{$reset_color%}'
 
-# CLI Tools
-# enable thefuck
-eval $(thefuck --alias)
-# Set up fzf key bindings and fuzzy completion
-source <(fzf --zsh)
-# fzf-git
-source $HOME/.config/zsh/fzf-git.sh
+# fzf setup and theme
+source $HOME/.config/zsh/fzf-setup.zsh
+
 # zoxide for better cd
 eval "$(zoxide init zsh)"
-
-# Bind Keys
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
-
-# Exports
-# FZF: let fzf use fs instead of find
-export FZF_DEFAULT_COMMAND="fd --hidden --strip-cwd-prefix --exclude .git"
-export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
-export FZF_ALT_C_COMMAND="fd --type=d --hidden --strip-cwd-prefix --exclude .git"
-# FZF: let fzf have preview and use eza for dir and bat for files
-show_file_or_dir_preview="if [ -d {} ]; then eza --tree --color=always {} | head -200; else bat -n --color=always --line-range :500 {}; fi"
-# export FZF_CTRL_T_OPTS="--preview '$show_file_or_dir_preview'"
-export FZF_CTRL_T_OPTS="--preview '$HOME/.config/zsh/fzf-preview.sh {}'"
-export FZF_ALT_C_OPTS="--preview 'eza --tree --color=always {} | head -200'"
 
 # bat theme
 export BAT_THEME="Catppuccin Macchiato"
 
+# Bind Up/Down Keys
+bindkey "$terminfo[kcuu1]" history-substring-search-up
+bindkey "$terminfo[kcud1]" history-substring-search-down
 
-#### Alias ####
-# For a full list of active aliases, run `alias`.
-alias refresh='source ~/.zshrc'
-alias ls='eza -lh --group-directories-first --icons=auto --sort=extension'
-alias la='ls -a'
-alias less='bat'
-alias cat='bat --paging=never'
-alias lt='eza --tree --level=3 --git --group-directories-first --sort=extension'
-alias lta='lt -a'
-alias ff="fzf --preview '$HOME/.config/zsh/fzf-preview.sh {}'"
-alias fd='fd -H --exclude .git'
-alias icat='kitty icat'
-alias cd='z'
-alias k="kubectl"
-alias del="trash"
-alias diff='git diff --no-index'
-alias f='fuck'
-alias fman='compgen -c | fzf | xargs man'
-alias ftldr='compgen -c | fzf | xargs tldr'
-alias vim='nvim'
-# alias grep='rg'
-alias kswitchcontext='kubectl config use-context $(kubectl config get-contexts -o name | fzf)'
-alias tmux-keys='tmux list-keys | fzf'
-alias tmux='tmux -f ~/.config/tmux/tmux.conf'
+# Enable thefuck
+eval $(thefuck --alias)
 
-
-#### Functions ####
-function git-keys() {
-	# show git aliases
-    # Assuming Oh My Zsh is installed in the default location
-    git_plugin_file="$HOME/.oh-my-zsh/plugins/git/git.plugin.zsh"
-    
-    # Check if the plugin file exists
-    if [[ -f "$git_plugin_file" ]]; then
-        # Use grep to extract lines starting with "alias"
-        grep "^alias" "$git_plugin_file" | fzf
-    else
-        echo "Git plugin file not found."
-    fi
-}
-
-### End of Functions ####
-# Add common alias and functions
-[ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
-[ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
-
-
-# OS specific alias
-case "$OSTYPE" in
-  linux*)  [ -f "$HOME/.config/zsh/omarchy-alias.zsh" ] && source "$HOME/.config/zsh/omarchy-alias.zsh" ;;
-  darwin*) [ -f "$HOME/.config/zsh/macos-alias.zsh" ] && source "$HOME/.config/zsh/macos-alias.zsh" ;;
-esac
-
-
-# OS specific functions
-case "$OSTYPE" in
-  linux*)  [ -f "$HOME/.config/zsh/omarchy-func.zsh" ] && source "$HOME/.config/zsh/omarchy-func.zsh" ;;
-  darwin*) [ -f "$HOME/.config/zsh/macos-func.zsh" ] && source "$HOME/.config/zsh/macos-func.zsh" ;;
-esac
-
-# FZF Theme
-[ -f "$HOME/.config/zsh/fzf-tokyonight-storm.zsh" ] && source "$HOME/.config/zsh/fzf-tokyonight-storm.zsh"
-
-
-#### FZF customs ####
-# Use fd (https://github.com/sharkdp/fd) for listing path candidates.
-# - The first argument to the function ($1) is the base path to start traversal
-# - See the source code (completion.{bash,zsh}) for the details.
-_fzf_compgen_path() {
-  fd --hidden --exclude .git . "$1"
-}
-
-#  for ** completion of fzf for looking dir
-_fzf_compgen_dir() {
-  fd --type=d --hidden --exclude .git . "$1"
-}
-
-# Advanced customization of fzf options via _fzf_comprun function
-# - The first argument to the function is the name of the command.
-# - You should make sure to pass the rest of the arguments to fzf.
-_fzf_comprun() {
-  local command=$1
-  shift
-
-  case "$command" in
-    cd)           fzf --preview 'eza --tree --color=always {} | head -200' "$@" ;;
-    export|unset) fzf --preview "eval 'echo \${}'"         "$@" ;;
-    ssh)          fzf --preview 'dig {}'                   "$@" ;;
-    *)            fzf --preview "$show_file_or_dir_preview" "$@" ;;
-  esac
-}
-#### End of FZF ####
-
+# Manpages to use nvim
+export MANPAGER='nvim +Man!'
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
@@ -250,10 +146,24 @@ _fzf_comprun() {
 # - $ZSH_CUSTOM/aliases.zsh
 # - $ZSH_CUSTOM/macos.zsh
 
-# OS specific evals
+
+# Common alias and functions
+[ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
+[ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
+
+
+# OS specific
 case "$OSTYPE" in
-  linux*)  [ -f "$HOME/.config/zsh/omarchy-eval.zsh" ] && source "$HOME/.config/zsh/omarchy-eval.zsh" ;;
-  darwin*) [ -f "$HOME/.config/zsh/macos-eval.zsh" ] && source "$HOME/.config/zsh/macos-eval.zsh" ;;
+  linux*)  
+    [ -f "$HOME/.config/zsh/omarchy-alias.zsh" ] && source "$HOME/.config/zsh/omarchy-alias.zsh"
+    [ -f "$HOME/.config/zsh/omarchy-func.zsh" ] && source "$HOME/.config/zsh/omarchy-func.zsh"
+    [ -f "$HOME/.config/zsh/omarchy-eval.zsh" ] && source "$HOME/.config/zsh/omarchy-eval.zsh"
+    ;;
+  darwin*) 
+    [ -f "$HOME/.config/zsh/macos-alias.zsh" ] && source "$HOME/.config/zsh/macos-alias.zsh"
+    [ -f "$HOME/.config/zsh/macos-func.zsh" ] && source "$HOME/.config/zsh/macos-func.zsh"
+    [ -f "$HOME/.config/zsh/macos-eval.zsh" ] && source "$HOME/.config/zsh/macos-eval.zsh"
+    ;;
 esac
 
 
