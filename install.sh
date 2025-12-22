@@ -122,7 +122,7 @@ for key in "${!pkgs[@]}"; do
   if [ -e "$path" ]; then
     echo "Checking if target location contains files."
     echo "Backing up $key: $path"
-    mv "$path" "${path}_bak"
+    mv "$path" "${path}.bak"
   else
     echo "Skipping $key: $path do not exists"
   fi
