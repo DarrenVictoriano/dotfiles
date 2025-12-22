@@ -1,62 +1,74 @@
 #!/usr/bin/env bash
 
+CONFIG_HOME="$HOME/.config"
 OS_TYPE="$(uname -s)"
 echo "Running GNU Stow for dotfiles..."
-common_pkgs=(
-  bat
-  ghostty
-  git
-  lazyvim
-  tmux
-  zsh
+
+declare -A common_pkgs=(
+  ["bat"]="$CONFIG_HOME/bat"
+  ["ghostty"]="$CONFIG_HOME/ghostty"
+  ["git"]="$CONFIG_HOME/git"
+  ["lazyvim"]="$CONFIG_HOME/nvim"
+  ["tmux"]="$CONFIG_HOME/tmux"
+  ["zsh"]="$CONFIG_HOME/zsh"
+  ["zshrc"]="$HOME/.zshrc"
 )
 
-linux_pkgs=(
-  elephant
-  ghosttymarchy
-  hyperland
-  mise
-  swayosd
-  walker
-  waybar
+declare -A linux_pkgs=(
+  ["elephant"]="$CONFIG_HOME/elephant"
+  ["ghosttymarchy"]="$CONFIG_HOME/ghosttymarchy"
+  ["hyperland"]="$CONFIG_HOME/hypr"
+  ["mise"]="$CONFIG_HOME/mise"
+  ["swayosd"]="$CONFIG_HOME/swayosd"
+  ["walker"]="$CONFIG_HOME/walker"
+  ["waybar"]="$CONFIG_HOME/waybar"
 )
 
-mac_pkgs=(
-  aerospace
-  hammerspoon
-  hushlogin
-  ideavimrc
-  karabiner
+declare -A mac_pkgs=(
+  ["aerospace"]="$CONFIG_HOME/aerospace"
+  ["hammerspoon"]="$CONFIG_HOME/hammerspoon"
+  ["hushlogin"]="$HOME/.hushlogin"
+  ["ideavimrc"]="$HOME/.ideavimrc"
+  ["karabiner"]="$CONFIG_HOME/karabiner"
 )
 
 # Determine which set to use
+declare -A pkgs
 if [ "$OS_TYPE" = "Linux" ] && [ -f /etc/arch-release ]; then
-  pkgs=("${common_pkgs[@]}" "${linux_pkgs[@]}")
+  for key in "${!common_pkgs[@]}"; do pkgs["$key"]="${common_pkgs[$key]}"; done
+  for key in "${!linux_pkgs[@]}"; do pkgs["$key"]="${linux_pkgs[$key]}"; done
 elif [ "$OS_TYPE" = "Darwin" ]; then
-  pkgs=("${common_pkgs[@]}" "${mac_pkgs[@]}")
+  for key in "${!common_pkgs[@]}"; do pkgs["$key"]="${common_pkgs[$key]}"; done
+  for key in "${!mac_pkgs[@]}"; do pkgs["$key"]="${mac_pkgs[$key]}"; done
 else
   echo "Unsupported OS: $OS_TYPE"
   exit 1
 fi
 
 # Stow concatenated pkgs
-for pkg in "${pkgs[@]}"; do
-  echo "Stowing $pkg..."
+for key in "${!pkgs[@]}"; do
+  echo "Starting Stow $key"
+  path="${pkgs[$key]}"
 
-  # Iterate over *all files* in the package
-  while IFS= read -r file; do
-    # Compute relative path (everything after "$pkg/")
-    rel_path="${file#"${pkg}"/}"
-    target="$HOME/$rel_path"
-
-    # If the target exists AND is not a symlink, back it up
-    if [ -e "$target" ] && [ ! -L "$target" ]; then
-      echo "Backing up: $target -> ${target}.bak"
-      mkdir -p "$(dirname "$target")" # ensure parent dirs exist
-      mv "$target" "${target}.bak"
+  if [ -e "$path" ]; then
+    if [ -L "$path" ]; then
+      echo "$path is a symlink, unstowing.."
+      stow -D -t "$HOME" "$key"
     fi
-  done < <(find "$pkg" -type f)
 
-  # Now safely stow the package
-  stow -R -t "$HOME" "$pkg"
+    echo "Checking if target location contains files."
+    echo "Backing up $key: $path"
+    mv "$path" "${path}.bak"
+  else
+    echo "Skipping $key: $path do not exists"
+  fi
+  
+  echo "Stowing $key"
+  if [ "$key" == "zshrc" ]; then
+    echo "skipping stow for $key because I dont stow this file."
+    continue
+  fi
+
+  stow -t "$HOME" "$key"
 done
+
