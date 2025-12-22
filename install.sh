@@ -80,6 +80,7 @@ declare -A common_pkgs=(
   ["lazyvim"]="$CONFIG_HOME/nvim"
   ["tmux"]="$CONFIG_HOME/tmux"
   ["zsh"]="$CONFIG_HOME/zsh"
+  ["zshrc"]="$HOME/.zshrc"
 )
 
 declare -A linux_pkgs=(
@@ -127,6 +128,11 @@ for key in "${!pkgs[@]}"; do
   fi
   
   echo "Stowing $key"
+  if [ "$key" == "zshrc" ]; then
+    echo "skipping stow for $key because it does not exists."
+    continue
+  fi
+
   stow -R -t "$HOME" "$key"
 done
 
