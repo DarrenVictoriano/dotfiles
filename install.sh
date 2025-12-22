@@ -40,7 +40,7 @@ echo "Running install-ohmyzsh.sh..."
 bash "$BIN_DIR/install-ohmyzsh.sh"
 
 echo "Running install-common.sh..."
-bash "$BIN_DIR/install-common.sh"
+bash "$BIN_DIR/install-common-pkg.sh"
 
 # -----------------------------
 # Run OS-specific scripts
