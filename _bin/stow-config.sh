@@ -51,6 +51,11 @@ for key in "${!pkgs[@]}"; do
   path="${pkgs[$key]}"
 
   if [ -e "$path" ]; then
+    if [ -L "$path" ]; then
+      echo "$path is a symlink, unstowing.."
+      stow -D -t "$HOME" "$key"
+    fi
+
     echo "Checking if target location contains files."
     echo "Backing up $key: $path"
     mv "$path" "${path}.bak"
@@ -60,10 +65,10 @@ for key in "${!pkgs[@]}"; do
   
   echo "Stowing $key"
   if [ "$key" == "zshrc" ]; then
-    echo "skipping stow for $key because it does not exists."
+    echo "skipping stow for $key because I dont stow this file."
     continue
   fi
 
-  stow -R -t "$HOME" "$key"
+  stow -t "$HOME" "$key"
 done
 
