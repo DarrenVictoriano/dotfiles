@@ -37,3 +37,16 @@ fi
 
 echo "install-zsh.sh completed!"
 
+echo "You need to reboot for this to take effect. Reboot now? [Y/n]?"
+
+read -rp "Reboot now? [y/N] " yn
+
+case $yn in
+    [Yy]* ) 
+        echo "Rebooting..."
+        sudo reboot
+        ;;
+    * ) 
+        echo "Please remember to reboot later for the shell changes to take effect."
+        ;;
+esac

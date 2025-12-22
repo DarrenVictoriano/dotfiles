@@ -2,9 +2,14 @@
 
 set -euo pipefail
 
-# TODO: for arch, we need to set zsh as shell before all these commands below.
-# echo "Running install-zsh.sh..."
-# bash "$BIN_DIR/install-zsh.sh"
+# Check if SHELL does NOT contain "zsh"
+if [[ "$SHELL" != *"zsh"* ]]; then
+  echo "Error: This script requires Zsh to be your default shell." >&2
+  echo "Current shell is: $SHELL" >&2
+  exit 1
+fi
+
+echo "The default shell is zsh. Proceeding..."
 
 # -----------------------------
 # Variables
