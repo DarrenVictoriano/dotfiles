@@ -12,17 +12,11 @@ fi
 echo "The default shell is zsh. Proceeding..."
 
 # -----------------------------
-# Variables
+# Clone repo if not exists
 # -----------------------------
 REPO_URL="https://github.com/DarrenVictoriano/dotfiles.git"
 TARGET_DIR="$HOME/Code/dotfiles"
-BIN_DIR="$TARGET_DIR/_bin"
-CONFIG_HOME="$HOME/.config"
 
-
-# -----------------------------
-# Clone repo if not exists
-# -----------------------------
 if [ ! -d "$TARGET_DIR" ]; then
   echo "Creating parent directory for dotfiles..."
   mkdir -p "$(dirname "$TARGET_DIR")"
@@ -40,6 +34,8 @@ cd "$TARGET_DIR"
 # -----------------------------
 # Run common scripts
 # -----------------------------
+BIN_DIR="$TARGET_DIR/_bin"
+
 echo "Running install-ohmyzsh.sh..."
 bash "$BIN_DIR/install-ohmyzsh.sh"
 
@@ -75,6 +71,7 @@ esac
 # -----------------------------
 # Stow dotfiles
 # -----------------------------
+CONFIG_HOME="$HOME/.config"
 echo "Running GNU Stow for dotfiles..."
 declare -A common_pkgs=(
   ["bat"]="$CONFIG_HOME/bat"
