@@ -2,6 +2,14 @@
 
 My personal doffiles for linux and macos
 
+## Pre-requisite
+
+zsh needs to be installed and set as default shell due to the `ohmyzsh`
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/DarrenVictoriano/dotfiles/main/_bin/install-zsh.sh | bash
+```
+
 ## Installation
 
 To install this run this script:
