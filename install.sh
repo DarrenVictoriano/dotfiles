@@ -149,4 +149,4 @@ if [ "$OS_TYPE" = "Linux" ] && [ -f /etc/arch-release ]; then
   ln -snf "${HOME}/.config/omarchy/current/theme/neovim.lua" "${HOME}/.config/nvim/lua/plugins/theme.lua"
 fi
 
-echo "Dotfiles bootstrap completed successfully!"
+echo "dotfiles bootstrap completed successfully!"
