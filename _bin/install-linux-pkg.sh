@@ -47,3 +47,8 @@ install_linux_pkg() {
 # Install PKGs
 # -----------------------
 install_linux_pkg "keychain"
+install_linux_pkg "gamemode"
+install_linux_pkg "lib32-gamemode"
+install_linux_pkg "mangohud"
+install_linux_pkg "lib32-mangohud"
+
