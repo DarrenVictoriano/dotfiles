@@ -22,6 +22,7 @@ declare -A linux_pkgs=(
   ["swayosd"]="$CONFIG_HOME/swayosd"
   ["walker"]="$CONFIG_HOME/walker"
   ["waybar"]="$CONFIG_HOME/waybar"
+  ["gamemode"]="$CONFIG_HOME/gamemode.ini"
 )
 
 declare -A mac_pkgs=(
