@@ -108,10 +108,19 @@ function kubectl_prompt() {
 RPROMPT='%{$fg[blue]%}($(kubectl_prompt))%{$reset_color%}'
 
 # fzf setup and theme
-source $HOME/.config/zsh/fzf-setup.zsh
+if command -v fzf &> /dev/null; then
+  source $HOME/.config/zsh/fzf-setup.zsh
+fi
 
 # zoxide for better cd
-eval "$(zoxide init zsh)"
+if command -v zoxide &> /dev/null; then
+  eval "$(zoxide init zsh)"
+fi
+
+# Enable thefuck
+if command -v thefuck &> /dev/null; then
+  eval $(thefuck --alias)
+fi
 
 # bat theme
 export BAT_THEME="Catppuccin Macchiato"
@@ -119,9 +128,6 @@ export BAT_THEME="Catppuccin Macchiato"
 # Bind Up/Down Keys
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
-
-# Enable thefuck
-eval $(thefuck --alias)
 
 # Manpages to use nvim
 export MANPAGER='nvim +Man!'
@@ -145,6 +151,16 @@ export MANPAGER='nvim +Man!'
 # the $ZSH_CUSTOM folder, with .zsh extension. Examples:
 # - $ZSH_CUSTOM/aliases.zsh
 # - $ZSH_CUSTOM/macos.zsh
+
+# History configuration
+HISTFILE=~/.zsh_history
+HISTSIZE=32768
+SAVEHIST=32768
+setopt APPEND_HISTORY           # Append to history file
+setopt SHARE_HISTORY            # Share history across sessions
+setopt HIST_IGNORE_DUPS         # Ignore duplicate commands
+setopt HIST_IGNORE_SPACE        # Ignore commands starting with space
+setopt HIST_REDUCE_BLANKS       # Remove unnecessary blanks
 
 
 # Common alias and functions
