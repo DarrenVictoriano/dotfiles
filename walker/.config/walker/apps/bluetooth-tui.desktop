@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Bluetooth
+Comment=Bluetooth TUI (bluetui)
+Exec=omarchy-launch-bluetooth
+Terminal=false
+Type=Application
+Icon=bluetooth
+StartupNotify=true

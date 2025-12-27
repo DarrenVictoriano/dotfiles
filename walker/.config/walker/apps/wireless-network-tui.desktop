@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Network
+Comment=Wireless Network (impala)
+Exec=omarchy-launch-wifi
+Terminal=false
+Type=Application
+Icon=network-wireless
+StartupNotify=true
