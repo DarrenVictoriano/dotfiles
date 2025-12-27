@@ -1,0 +1,9 @@
+[Desktop Entry]
+Version=1.0
+Name=Activity Monitor
+Comment=Activity Monitor (btop)
+Exec=omarchy-launch-or-focus-tui btop
+Terminal=false
+Type=Application
+Icon=utilities-system-monitor
+StartupNotify=true
