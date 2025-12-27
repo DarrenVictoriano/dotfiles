@@ -63,7 +63,7 @@
     //     "on-click-right": "omarchy-launch-floating-terminal-with-presentation omarchy-tz-select",
     // },
     "clock": {
-        "format": "{:L%A %I:%M %p}",
+        "format": "{:%A | %b %d %Y | %I:%M %p}",
         // "format-alt": "{:L%B %d %Y}",
         "tooltip-format": "<tt><big><big>{calendar}</big></big></tt>",
         "calendar": {
