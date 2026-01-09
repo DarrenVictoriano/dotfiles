@@ -1,0 +1,33 @@
+SUPER ALT + COMMA                   → Invoke last notification
+SUPER + COMMA                       → Dismiss last notification
+SUPER CTRL + COMMA                  → Toggle silencing notifications
+SUPER SHIFT ALT + COMMA             → Restore last notification
+SUPER SHIFT + COMMA                 → Dismiss all notifications
+SUPER SHIFT + BACKSPACE             → Toggle window transparency
+SUPER CTRL + N                      → Toggle nightlight
+SUPER CTRL + I                      → Toggle locking on idle
+ALT + M                             → Toggle split
+SHIFT ALT + L                       → Copy URL from Web App
+SUPER CTRL ALT + B                  → Show battery remaining
+SUPER CTRL ALT + T                  → Show time
+SUPER SHIFT ALT + DOWN              → Move workspace to down monitor
+SUPER SHIFT ALT + LEFT              → Move workspace to left monitor
+SUPER SHIFT ALT + RIGHT             → Move workspace to right monitor
+SUPER SHIFT ALT + UP                → Move workspace to up monitor
+SUPER SHIFT + W                     → WiFi
+
+
+SUPER ALT + 1                       → Switch to group window 1
+SUPER ALT + 2                       → Switch to group window 2
+SUPER ALT + 3                       → Switch to group window 3
+SUPER ALT + 4                       → Switch to group window 4
+SUPER ALT + 5                       → Switch to group window 5
+SUPER ALT + G                       → Move active window out of group
+SUPER ALT + mouse_down              → Next window in group
+SUPER ALT + mouse_up                → Previous window in group
+SUPER ALT + slash                   → Move active window out of group
+SUPER + mouse_down                  → Scroll active workspace forward
+SUPER + mouse_up                    → Scroll active workspace backward
+SHIFT ALT + TAB                     → Cycle to prev window
+SHIFT ALT + TAB                     → Reveal active window on top
+
