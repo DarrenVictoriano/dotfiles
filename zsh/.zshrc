@@ -99,7 +99,7 @@ function kubectl_prompt() {
     
     # Check if the first index is not empty
     if [ -n "$context" ]; then
-		echo "$context"
+		    echo "$context"
     else
         # Return an error message if the first index is empty
         echo "Error: Unable to extract the 1st index from ZSH_KUBECTL_CONTEXT"
@@ -182,9 +182,5 @@ case "$OSTYPE" in
     ;;
 esac
 
-
-# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
-[[ ! -f "$HOME/.config/zsh/p10k.zsh" ]] || source "$HOME/.config/zsh/p10k.zsh"
-
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/p10k.zsh.
-[[ ! -f ~/.config/zsh/p10k.zsh ]] || source ~/.config/zsh/p10k.zsh
+[[ ! -f "$HOME/.config/zsh/p10k.zsh" ]] || source "$HOME/.config/zsh/p10k.zsh"
