@@ -96,14 +96,15 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
 # source vi-mode config
 [[ ! -f "$HOME/.config/zsh/vi-mode.zsh" ]] || source "$HOME/.config/zsh/vi-mode.zsh"
 
-## Parse kubectl promt to only display the context
-function kubectl_prompt() {
-    local context
-    context="${ZSH_KUBECTL_CONTEXT#*_}"
-    # context=$(echo "$ZSH_KUBECTL_CONTEXT" | cut -d'_' -f2)
-    [[ -n "$context" ]] && print -r -- "$context"
-   }
-RPROMPT='%{$fg[blue]%}($(kubectl_prompt))%{$reset_color%}'
+# This makes instant-prompt slow
+# ## Parse kubectl promt to only display the context
+# function kubectl_prompt() {
+#     local context
+#     context="${ZSH_KUBECTL_CONTEXT#*_}"
+#     # context=$(echo "$ZSH_KUBECTL_CONTEXT" | cut -d'_' -f2)
+#     [[ -n "$context" ]] && print -r -- "$context"
+#    }
+# RPROMPT='%{$fg[blue]%}($(kubectl_prompt))%{$reset_color%}'
 
 # fzf setup and theme
 if command -v fzf &> /dev/null; then
