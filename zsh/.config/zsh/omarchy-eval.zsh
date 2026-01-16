@@ -2,9 +2,9 @@
 
 # Git ssh-agent
 if command -v keychain &> /dev/null; then
-  eval "$(keychain --eval --agents ssh ~/.ssh/id_ed25519)"
+  eval "$(keychain --eval --quiet --agents ssh ~/.ssh/id_ed25519 2>/dev/null)"
 fi
 
 if command -v mise &> /dev/null; then
-  eval "$(mise activate zsh)"
+  eval "$(mise activate zsh 2>/dev/null)"
 fi
