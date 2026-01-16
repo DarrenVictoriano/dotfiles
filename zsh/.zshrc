@@ -87,11 +87,14 @@ plugins=(
   zsh-syntax-highlighting
   zsh-history-substring-search
   zsh-kubectl-prompt
-  poetry
+  vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
+
+# source vi-mode config
+[[ ! -f "$HOME/.config/zsh/vi-mode.zsh" ]] || source "$HOME/.config/zsh/vi-mode.zsh"
 
 ## Parse kubectl promt to only display the context
 function kubectl_prompt() {
@@ -131,11 +134,11 @@ export MANPAGER='nvim +Man!'
 # export LANG=en_US.UTF-8
 
 # Preferred editor for local and remote sessions
-# if [[ -n $SSH_CONNECTION ]]; then
-#   export EDITOR='vim'
-# else
-#   export EDITOR='nvim'
-# fi
+if [[ -n $SSH_CONNECTION ]]; then
+  export EDITOR='vim'
+else
+  export EDITOR='nvim'
+fi
 
 # Compilation flags
 # export ARCHFLAGS="-arch $(uname -m)"
