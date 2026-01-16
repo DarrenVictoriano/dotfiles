@@ -95,16 +95,11 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
 
 ## Parse kubectl promt to only display the context
 function kubectl_prompt() {
-    context=$(echo "$ZSH_KUBECTL_CONTEXT" | cut -d'_' -f2)
-    
-    # Check if the first index is not empty
-    if [ -n "$context" ]; then
-		    echo "$context"
-    else
-        # Return an error message if the first index is empty
-        echo "Error: Unable to extract the 1st index from ZSH_KUBECTL_CONTEXT"
-    fi
-}
+    local context
+    context="${ZSH_KUBECTL_CONTEXT#*_}"
+    # context=$(echo "$ZSH_KUBECTL_CONTEXT" | cut -d'_' -f2)
+    [[ -n "$context" ]] && print -r -- "$context"
+   }
 RPROMPT='%{$fg[blue]%}($(kubectl_prompt))%{$reset_color%}'
 
 # fzf setup and theme
@@ -114,12 +109,12 @@ fi
 
 # zoxide for better cd
 if command -v zoxide &> /dev/null; then
-  eval "$(zoxide init zsh)"
+  eval "$(zoxide init zsh 2>/dev/null)"
 fi
 
 # Enable thefuck
 if command -v thefuck &> /dev/null; then
-  eval $(thefuck --alias)
+  eval "$(thefuck --alias 2>/dev/null)"
 fi
 
 # bat theme
