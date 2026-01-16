@@ -87,11 +87,14 @@ plugins=(
   zsh-syntax-highlighting
   zsh-history-substring-search
   zsh-kubectl-prompt
-  poetry
+  vi-mode
 )
 
 source $ZSH/oh-my-zsh.sh
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
+
+# source vi-mode config
+[[ ! -f "$HOME/.config/zsh/vi-mode.zsh" ]] || source "$HOME/.config/zsh/vi-mode.zsh"
 
 ## Parse kubectl promt to only display the context
 function kubectl_prompt() {
