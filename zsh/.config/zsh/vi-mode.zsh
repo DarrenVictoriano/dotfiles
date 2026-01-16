@@ -1,5 +1,7 @@
 #!/usr/bin/env zsh
 
+# https://github.com/ohmyzsh/ohmyzsh/tree/master/plugins/vi-mode
+
 # rebind esc to jk
 bindkey -M viins 'jk' vi-cmd-mode
 
