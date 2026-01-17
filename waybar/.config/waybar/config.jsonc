@@ -135,7 +135,7 @@
         "scroll-step": 5,
         "format-muted": "",
         "format-icons": {
-      "headphone": "",
+            "headphone": "",
             "default": ["", "", ""],
         },
     },
@@ -157,19 +157,19 @@
         "signal": 8,
         "return-type": "json",
     },
-  "custom/voxtype": {
-    "exec": "omarchy-voxtype-status",
-    "return-type": "json",
-    "format": "{icon}",
-    "format-icons": {
-      "idle": "",
-      "recording": "󰍬",
-      "transcribing": "󰔟"
+    "custom/voxtype": {
+        "exec": "omarchy-voxtype-status",
+        "return-type": "json",
+        "format": "{icon}",
+        "format-icons": {
+            "idle": "",
+            "recording": "󰍬",
+            "transcribing": "󰔟",
+        },
+        "tooltip": true,
+        "on-click-right": "omarchy-voxtype-config",
+        "on-click": "omarchy-voxtype-model",
     },
-    "tooltip": true,
-    "on-click-right": "omarchy-voxtype-config",
-    "on-click": "omarchy-voxtype-model"
-  },
     "tray": {
         "icon-size": 12,
         "spacing": 12,
