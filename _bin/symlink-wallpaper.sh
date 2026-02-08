@@ -24,6 +24,6 @@ for line in "${IGNORE_LINES[@]}"; do
   fi
 done
 
-ln -snf "${HOME}/Code/dotfiles/wallpapers/4-City-Landscape-Architecture.jpg" "${HOME}/.local/share/omarchy/themes/tokyo-night/backgrounds/4-City-Landscape-Architecture.jpg"
-ln -snf "${HOME}/Code/dotfiles/wallpapers/5-Train-Station-Dusk.jpg" "${HOME}/.local/share/omarchy/themes/tokyo-night/backgrounds/5-Train-Station-Dusk.jpg"
+ln -snf "${HOME}/code/dotfiles/wallpapers/4-City-Landscape-Architecture.jpg" "${HOME}/.local/share/omarchy/themes/tokyo-night/backgrounds/4-City-Landscape-Architecture.jpg"
+ln -snf "${HOME}/code/dotfiles/wallpapers/5-Train-Station-Dusk.jpg" "${HOME}/.local/share/omarchy/themes/tokyo-night/backgrounds/5-Train-Station-Dusk.jpg"
 

@@ -15,7 +15,7 @@ echo "The default shell is zsh. Proceeding..."
 # Clone repo if not exists
 # -----------------------------
 REPO_URL="https://github.com/DarrenVictoriano/dotfiles.git"
-TARGET_DIR="$HOME/Code/dotfiles"
+TARGET_DIR="$HOME/code/dotfiles"
 
 if [ ! -d "$TARGET_DIR" ]; then
   echo "Creating parent directory for dotfiles..."

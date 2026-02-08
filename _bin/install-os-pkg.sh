@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-TARGET_DIR="$HOME/Code/dotfiles"
+TARGET_DIR="$HOME/code/dotfiles"
 BIN_DIR="$TARGET_DIR/_bin"
 OS_TYPE="$(uname -s)"
 
