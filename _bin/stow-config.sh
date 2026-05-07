@@ -12,6 +12,7 @@ declare -A common_pkgs=(
   ["tmux"]="$CONFIG_HOME/tmux"
   ["zsh"]="$CONFIG_HOME/zsh"
   ["zshrc"]="$HOME/.zshrc"
+  ["presenterm"]="$CONFIG_HOME/presenterm"
 )
 
 declare -A linux_pkgs=(
@@ -63,7 +64,7 @@ for key in "${!pkgs[@]}"; do
   else
     echo "Skipping $key: $path do not exists"
   fi
-  
+
   echo "Stowing $key"
   if [ "$key" == "zshrc" ]; then
     echo "skipping stow for $key because I dont stow this file."
@@ -72,4 +73,3 @@ for key in "${!pkgs[@]}"; do
 
   stow -t "$HOME" "$key"
 done
-

@@ -165,6 +165,7 @@ setopt HIST_REDUCE_BLANKS       # Remove unnecessary blanks
 # Common alias and functions
 [ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
 [ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
+[ -f "$HOME/.config/zsh/eval.zsh" ] && source "$HOME/.config/zsh/eval.zsh"
 
 
 # OS specific
