@@ -64,7 +64,7 @@ if [ "$OS_TYPE" = "Linux" ] && [ -f /etc/arch-release ]; then
 
   # symlink dynamic neovim theme
   echo "Symlinking dynamic theming for neovim"
-  ln -snf "${HOME}/.config/omarchy/current/theme/neovim.lua" "${HOME}/.config/nvim/lua/plugins/theme.lua"
+  ln -snf "${HOME}/.local/state/omarchy/current/theme/neovim.lua" "${HOME}/.config/nvim/lua/plugins/theme.lua"
 
   # symlink desktop apps
   bash "$BIN_DIR/symlink-desktop-apps.sh"
