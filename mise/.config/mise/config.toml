@@ -2,3 +2,4 @@
 codex = "latest"
 go = "latest"
 node = "lts"
+opencode = "latest"
