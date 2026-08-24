@@ -1,221 +1,143 @@
--- Keep Omarchy defaults unless the legacy keymap explicitly removes a chord.
-local removed_bindings = {
-  "ALT + A",
-  "ALT + D",
-  "ALT + F",
-  "ALT + F11",
-  "ALT + H",
-  "ALT + J",
-  "ALT + K",
-  "ALT + L",
-  "ALT + M",
-  "ALT + PRINT",
-  "ALT + S",
-  "ALT + SHIFT + A",
-  "ALT + SHIFT + D",
-  "ALT + SHIFT + F",
-  "ALT + SHIFT + H",
-  "ALT + SHIFT + J",
-  "ALT + SHIFT + K",
-  "ALT + SHIFT + L",
-  "ALT + SHIFT + S",
-  "ALT + SHIFT + TAB",
-  "ALT + TAB",
-  "CTRL + ALT + DELETE",
-  "CTRL + F1",
-  "CTRL + F2",
-  "CTRL + SHIFT + F2",
-  "CTRL + ALT + TAB",
-  "PRINT",
-  "SHIFT + F11",
-  "SHIFT + PRINT",
-  "CTRL + ALT + SHIFT + TAB",
-  "SUPER + A",
-  "SUPER + ALT + DOWN",
-  "SUPER + ALT + F",
-  "SUPER + ALT + G",
-  "SUPER + ALT + H",
-  "SUPER + ALT + I",
-  "SUPER + ALT + J",
-  "SUPER + ALT + K",
-  "SUPER + ALT + L",
-  "SUPER + ALT + LEFT",
-  "SUPER + ALT + O",
-  "SUPER + ALT + RIGHT",
-  "SUPER + ALT + S",
-  "SUPER + ALT + SHIFT + F",
-  "SUPER + ALT + SHIFT + H",
-  "SUPER + ALT + SHIFT + J",
-  "SUPER + ALT + SHIFT + K",
-  "SUPER + ALT + SHIFT + L",
-  "SUPER + ALT + SHIFT + S",
-  "SUPER + ALT + SHIFT + semicolon",
-  "SUPER + ALT + SHIFT + T",
-  "SUPER + ALT + SHIFT + TAB",
-  "SUPER + ALT + SPACE",
-  "SUPER + ALT + TAB",
-  "SUPER + ALT + U",
-  "SUPER + ALT + UP",
-  "SUPER + ALT + W",
-  "SUPER + ALT + mouse_down",
-  "SUPER + ALT + mouse_up",
-  "SUPER + ALT + semicolon",
-  "SUPER + BACKSPACE",
-  "SUPER + CTRL + A",
-  "SUPER + CTRL + ALT + B",
-  "SUPER + CTRL + ALT + T",
-  "SUPER + CTRL + B",
-  "SUPER + CTRL + E",
-  "SUPER + CTRL + L",
-  "SUPER + CTRL + LEFT",
-  "SUPER + CTRL + RIGHT",
-  "SUPER + CTRL + T",
-  "SUPER + CTRL + TAB",
-  "SUPER + CTRL + V",
-  "SUPER + CTRL + W",
-  "SUPER + CTRL + mouse:272",
-  "SUPER + CTRL + mouse:273",
-  "SUPER + D",
-  "SUPER + DOWN",
-  "SUPER + E",
-  "SUPER + ESCAPE",
-  "SUPER + F",
-  "SUPER + G",
-  "SUPER + Home",
-  "SUPER + J",
-  "SUPER + L",
-  "SUPER + LEFT",
-  "SUPER + N",
-  "SUPER + O",
-  "SUPER + P",
-  "SUPER + PRINT",
-  "SUPER + Q",
-  "SUPER + R",
-  "SUPER + RETURN",
-  "SUPER + RIGHT",
-  "SUPER + S",
-  "SUPER + SHIFT + 4",
-  "SUPER + SHIFT + 5",
-  "SUPER + SHIFT + 6",
-  "SUPER + SHIFT + 8",
-  "SUPER + SHIFT + A",
-  "SUPER + SHIFT + ALT + DOWN",
-  "SUPER + SHIFT + ALT + LEFT",
-  "SUPER + SHIFT + ALT + RIGHT",
-  "SUPER + SHIFT + ALT + UP",
-  "SUPER + SHIFT + B",
-  "SUPER + SHIFT + BACKSPACE",
-  "SUPER + SHIFT + C",
-  "SUPER + SHIFT + CTRL + SPACE",
-  "SUPER + SHIFT + D",
-  "SUPER + SHIFT + DOWN",
-  "SUPER + SHIFT + E",
-  "SUPER + SHIFT + F",
-  "SUPER + SHIFT + J",
-  "SUPER + SHIFT + LEFT",
-  "SUPER + SHIFT + Q",
-  "SUPER + SHIFT + RIGHT",
-  "SUPER + SHIFT + TAB",
-  "SUPER + SHIFT + UP",
-  "SUPER + SHIFT + V",
-  "SUPER + SHIFT + W",
-  "SUPER + SHIFT + code:20",
-  "SUPER + SHIFT + code:21",
-  "SUPER + SLASH",
-  "SUPER + T",
-  "SUPER + TAB",
-  "SUPER + UP",
-  "SUPER + W",
-  "SUPER + Y",
-  "SUPER + Z",
-  "SUPER + code:20",
-  "SUPER + code:21",
-  "SUPER + mouse:272",
-  "SUPER + mouse:273",
-  "SUPER + mouse_down",
-  "SUPER + mouse_up",
-  "SUPER + ALT + code:34",
-  "SUPER + ALT + code:35",
-  "SUPER + ALT + code:21",
-  "SUPER + ALT + Home",
-  "SUPER + ALT + code:20",
-  "SUPER + ALT + SLASH",
-  "SUPER + CTRL + code:10",
-  "SUPER + CTRL + code:11",
-  "SUPER + CTRL + code:12",
-  "SUPER + CTRL + code:13",
-  "SUPER + CTRL + code:14",
-  "SUPER + CTRL + code:15",
-  "SUPER + CTRL + code:16",
-  "SUPER + CTRL + code:17",
-  "SUPER + CTRL + code:18",
-  "SUPER + CTRL + BACKSPACE",
-  "SUPER + CTRL + C",
-  "SUPER + CTRL + D",
-  "SUPER + CTRL + Delete",
-  "SUPER + CTRL + code:21",
-  "SUPER + CTRL + F",
-  "SUPER + CTRL + K",
-  "SUPER + CTRL + code:20",
-  "SUPER + CTRL + O",
-  "SUPER + CTRL + P",
-  "SUPER + CTRL + PERIOD",
-  "SUPER + CTRL + PRINT",
-  "SUPER + CTRL + Q",
-  "SUPER + CTRL + R",
-  "SUPER + CTRL + RETURN",
-  "SUPER + CTRL + S",
-  "SUPER + CTRL + ALT + D",
-  "SUPER + CTRL + ALT + Delete",
-  "SUPER + SHIFT + G",
-  "SUPER + SHIFT + M",
-  "SUPER + SHIFT + N",
-  "SUPER + SHIFT + O",
-  "SUPER + SHIFT + P",
-  "SUPER + SHIFT + RETURN",
-  "SUPER + SHIFT + S",
-  "SUPER + SHIFT + SLASH",
-  "SUPER + SHIFT + X",
-  "SUPER + SHIFT + Y",
-  "SUPER + SHIFT + ALT + A",
-  "SUPER + SHIFT + ALT + B",
-  "SUPER + SHIFT + ALT + E",
-  "SUPER + SHIFT + ALT + code:21",
-  "SUPER + SHIFT + ALT + G",
-  "SUPER + SHIFT + ALT + M",
-  "SUPER + SHIFT + ALT + code:20",
-  "SUPER + SHIFT + ALT + X",
-  "SUPER + SHIFT + CTRL + A",
-  "SUPER + SHIFT + CTRL + G",
-  "SUPER + SHIFT + CTRL + code:20",
-  "SUPER + SHIFT + CTRL + R",
-  "ALT + XF86AudioLowerVolume",
-  "ALT + XF86AudioPlay",
-  "ALT + XF86AudioRaiseVolume",
-  "ALT + XF86MonBrightnessDown",
-  "ALT + XF86MonBrightnessUp",
-  "ALT + SHIFT + XF86AudioPlay",
-  "SHIFT + XF86AudioMute",
-  "SHIFT + XF86AudioPause",
-  "SHIFT + XF86AudioPlay",
-  "SHIFT + XF86MonBrightnessDown",
-  "SHIFT + XF86MonBrightnessUp",
-}
+-- This file owns the complete keymap. Omarchy supplies commands and helpers,
+-- but its default binding modules are disabled in hyprland.lua.
 
-for workspace = 1, 10 do
-  local key = "code:" .. tostring(workspace + 9)
-  table.insert(removed_bindings, "SUPER + " .. key)
-  table.insert(removed_bindings, "SUPER + SHIFT + " .. key)
-  table.insert(removed_bindings, "SUPER + SHIFT + ALT + " .. key)
+-- Redeclared from default/hypr/bindings/clipboard.lua.
+-- Send a CTRL chord without the held SUPER modifier leaking into it.
+local function send_shortcut_once(mods, key)
+  return function()
+    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
+    hl.timer(function()
+      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
+    end, { timeout = 50, type = "oneshot" })
+  end
 end
 
-for index = 1, 5 do
-  table.insert(removed_bindings, "SUPER + ALT + code:" .. tostring(index + 9))
+local function active_window_is_terminal()
+  local window = hl.get_active_window()
+  if not window then
+    return false
+  end
+
+  for _, tag in ipairs(window.tags or {}) do
+    if tag:gsub("%*$", "") == "terminal" then
+      return true
+    end
+  end
+
+  return false
 end
 
-for _, keys in ipairs(removed_bindings) do
-  hl.unbind(keys)
+local function universal_clipboard_shortcut(default_mods, default_key, terminal_mods, terminal_key)
+  return function()
+    if active_window_is_terminal() then
+      send_shortcut_once(terminal_mods, terminal_key)()
+    else
+      send_shortcut_once(default_mods, default_key)()
+    end
+  end
 end
+
+-- Redeclared from default/hypr/bindings/utilities.lua.
+o.bind("SUPER + SPACE", "Omarchy menu", "omarchy-menu toggle")
+o.bind("SUPER + K", "Keybindings", "omarchy-menu-keybindings")
+
+-- Redeclared from default/hypr/bindings/clipboard.lua.
+o.bind("SUPER + C", "Universal copy", universal_clipboard_shortcut("CTRL", "C", "CTRL", "Insert"))
+o.bind("SUPER + V", "Universal paste", universal_clipboard_shortcut("CTRL", "V", "SHIFT", "Insert"))
+o.bind("SUPER + X", "Universal cut", send_shortcut_once("CTRL", "X"))
+
+-- Redeclared from default/hypr/bindings/applications.lua.
+o.bind("SUPER + ALT + RETURN", "Tmux", { omarchy = "terminal-tmux" })
+
+-- Redeclared from default/hypr/bindings/utilities.lua.
+o.bind("SUPER + comma", "Dismiss last notification", "omarchy-shell notifications dismissOne")
+o.bind("SUPER + SHIFT + comma", "Dismiss all notifications", "omarchy-shell notifications dismissAll")
+o.bind_toggle("SUPER + CTRL + comma", "Toggle silencing notifications", "notification-silencing")
+o.bind("SUPER + ALT + comma", "Invoke last notification", "omarchy-shell notifications invokeLast")
+o.bind("SUPER + SHIFT + ALT + comma", "Open notification history", "omarchy-shell notifications showHistory")
+
+o.bind_toggle("SUPER + SHIFT + SPACE", "Toggle top bar", "bar")
+o.bind_toggle("SUPER + CTRL + I", "Toggle locking on idle", "idle")
+o.bind_toggle("SUPER + CTRL + N", "Toggle nightlight", "nightlight")
+o.bind("SUPER + CTRL + H", "Hardware menu", "omarchy-menu toggle hardware")
+o.bind("SUPER + CTRL + SPACE", "Background switcher", "omarchy-menu toggle background")
+o.bind("SUPER + CTRL + ALT + R", "Show reminders", "omarchy-reminder show")
+o.bind("SUPER + CTRL + ALT + W", "Toggle weather", "omarchy-notification-weather")
+
+o.bind("SUPER + CTRL + Z", "Zoom in", function()
+  local zoom = hl.get_config("cursor.zoom_factor") or 1
+  hl.config({ cursor = { zoom_factor = zoom + 1 } })
+end)
+o.bind("SUPER + CTRL + ALT + Z", "Reset zoom", function()
+  hl.config({ cursor = { zoom_factor = 1 } })
+end)
+
+-- Redeclared from default/hypr/bindings/media.lua.
+o.bind("XF86AudioRaiseVolume", "Volume up", "omarchy-audio-output-volume raise", { locked = true, repeating = true })
+o.bind("XF86AudioLowerVolume", "Volume down", "omarchy-audio-output-volume lower", { locked = true, repeating = true })
+o.bind("XF86AudioMute", "Mute", "omarchy-audio-output-volume mute-toggle", { locked = true })
+o.bind("XF86AudioMicMute", "Mute microphone", "omarchy-audio-input-mute", { locked = true })
+o.bind("XF86MonBrightnessUp", "Brightness up", "omarchy-brightness-display +5%", { locked = true, repeating = true })
+o.bind("XF86MonBrightnessDown", "Brightness down", "omarchy-brightness-display 5%-", { locked = true, repeating = true })
+o.bind("XF86KbdBrightnessUp", "Keyboard brightness up", "omarchy-brightness-keyboard up",
+  { locked = true, repeating = true })
+o.bind("XF86KbdBrightnessDown", "Keyboard brightness down", "omarchy-brightness-keyboard down",
+  { locked = true, repeating = true })
+o.bind("XF86KbdLightOnOff", "Keyboard backlight cycle", "omarchy-brightness-keyboard cycle", { locked = true })
+o.bind_toggle("XF86TouchpadToggle", "Toggle touchpad", "touchpad", { locked = true })
+o.bind("XF86TouchpadOn", "Enable touchpad", "omarchy-toggle-touchpad on", { locked = true })
+o.bind("XF86TouchpadOff", "Disable touchpad", "omarchy-toggle-touchpad off", { locked = true })
+o.bind("XF86AudioNext", "Next track", "omarchy-shell media next", { locked = true })
+o.bind("XF86AudioPause", "Pause", "omarchy-shell media playPause", { locked = true })
+o.bind("XF86AudioPlay", "Play", "omarchy-shell media playPause", { locked = true })
+o.bind("XF86AudioPrev", "Previous track", "omarchy-shell media previous", { locked = true })
+o.bind("XF86Eject", "Eject media", "eject", { locked = true })
+
+-- Redeclared from default/hypr/bindings/utilities.lua.
+o.bind("XF86Calculator", "Calculator", "omacalc")
+o.bind("XF86PowerOff", "Power menu", "omarchy-menu toggle system", { locked = true })
+
+-- Preserve system behavior from default/hypr/bindings/utilities.lua.
+o.bind("switch:on:Lid Switch", nil, "omarchy-system-lid-close", { locked = true })
+o.bind("switch:off:Lid Switch", nil, "omarchy-hyprland-monitor-clamshell", { locked = true })
+
+local selection_layers = 0
+local selection_binds = {}
+
+hl.on("layer.opened", function(layer)
+  if layer.namespace == "selection" then
+    selection_layers = selection_layers + 1
+    if selection_layers == 1 then
+      selection_binds = {
+        hl.bind("RETURN", hl.dsp.exec_cmd("omarchy-capture-region --take-window"),
+          { description = "Capture highlighted window" }),
+        hl.bind("CTRL + RETURN", hl.dsp.exec_cmd("omarchy-capture-region --take-fullscreen"),
+          { description = "Capture entire screen" }),
+        hl.bind("TAB", hl.dsp.exec_cmd("omarchy-capture-region --select-window next"),
+          { description = "Select next window to capture" }),
+        hl.bind("CTRL + TAB", hl.dsp.exec_cmd("omarchy-capture-region --select-window prev"),
+          { description = "Select previous window to capture" }),
+      }
+      for _, direction in ipairs({ "left", "right", "up", "down" }) do
+        table.insert(selection_binds,
+          hl.bind(direction:upper(), hl.dsp.exec_cmd("omarchy-capture-region --select-window " .. direction),
+            { description = "Select window to capture" }))
+      end
+    end
+  end
+end)
+
+hl.on("layer.closed", function(layer)
+  if layer.namespace == "selection" and selection_layers > 0 then
+    selection_layers = selection_layers - 1
+    if selection_layers == 0 then
+      for _, keybind in ipairs(selection_binds) do
+        keybind:unbind()
+      end
+      selection_binds = {}
+    end
+  end
+end)
 
 -- Application bindings.
 o.bind("SUPER + RETURN", "Terminal", { omarchy = "terminal" })
@@ -238,16 +160,6 @@ o.bind("SUPER + CTRL + mouse:273", "Resize window", hl.dsp.window.resize(), { mo
 -- Close windows.
 o.bind("SUPER + Q", "Close active window", hl.dsp.window.close())
 o.bind("SUPER + SHIFT + Q", "Close all windows", "omarchy-hyprland-window-close-all")
-
--- Send a CTRL chord without the held SUPER modifier leaking into it.
-local function send_shortcut_once(mods, key)
-  return function()
-    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
-    hl.timer(function()
-      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
-    end, { timeout = 50, type = "oneshot" })
-  end
-end
 
 -- macOS-like bindings.
 o.bind("SUPER + W", "Close window", send_shortcut_once("CTRL", "W"))
