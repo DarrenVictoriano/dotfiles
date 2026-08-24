@@ -1,7 +1,6 @@
 SUPER + K                           → Keybindings
 SUPER + SPACE                       → Omarchy menu
 SUPER + RETURN                      → Terminal
-SUPER SHIFT + RETURN                → Browser
 SUPER + E                           → File manager
 SUPER ALT + O                       → Full screen
 SUPER ALT + W                       → Full width
@@ -75,6 +74,7 @@ SUPER SHIFT + B                     → Bluetooth
 SUPER SHIFT + D                     → Display
 SUPER SHIFT + E                     → Emoji picker
 SUPER SHIFT + SPACE                 → Toggle top bar
+SUPER SHIFT + T                     → Open previously closed tab
 SUPER SHIFT + W                     → WiFi
 SUPER + S                           → Save
 SUPER + T                           → New tab
@@ -107,3 +107,4 @@ XF86PowerOff                        → Power menu
 XF86TouchpadOff                     → Disable touchpad
 XF86TouchpadOn                      → Enable touchpad
 XF86TouchpadToggle                  → Toggle touchpad
+
