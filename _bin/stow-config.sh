@@ -16,14 +16,11 @@ declare -A common_pkgs=(
 )
 
 declare -A linux_pkgs=(
-  ["elephant"]="$CONFIG_HOME/elephant"
   ["ghosttymarchy"]="$CONFIG_HOME/ghosttymarchy"
   ["hyperland"]="$CONFIG_HOME/hypr"
   ["mise"]="$CONFIG_HOME/mise"
-  ["swayosd"]="$CONFIG_HOME/swayosd"
-  ["walker"]="$CONFIG_HOME/walker"
-  ["waybar"]="$CONFIG_HOME/waybar"
   ["gamemode"]="$CONFIG_HOME/gamemode.ini"
+  ["omarchy"]="$CONFIG_HOME/omarchy"
 )
 
 declare -A mac_pkgs=(
