@@ -165,10 +165,10 @@ SUPER SHIFT + P                     → Google Photos
 SUPER SHIFT + S                     → Google Maps
 SUPER SHIFT + SLASH                 → Passwords
 SUPER SHIFT + SPACE                 → Toggle top bar
-SUPER SHIFT + W                     → Omawrite
-SUPER SHIFT + X                     → X
-SUPER SHIFT + Y                     → YouTube
-SUPER + SLASH                       → Monitor scaling up
+SUPER SHIFT + W                     → Omawrite  -- remove
+SUPER SHIFT + X                     → X  -- remove
+SUPER SHIFT + Y                     → YouTube  -- remove
+SUPER + SLASH                       → Monitor scaling up  -- remove
 SUPER ALT + 1                       → Switch to group window 1
 SUPER ALT + 2                       → Switch to group window 2
 SUPER ALT + 3                       → Switch to group window 3
@@ -185,22 +185,22 @@ SUPER ALT + UP                      → Move window to group on top
 SUPER CTRL + LEFT                   → Move grouped window focus left
 SUPER CTRL + RIGHT                  → Move grouped window focus right
 SUPER + G                           → Toggle window grouping
-SUPER SHIFT ALT + TAB               → Previous window in group
-SUPER + mouse_down                  → Scroll active workspace forward
-SUPER + mouse_up                    → Scroll active workspace backward
-ALT + TAB                           → Reveal active window on top
-SHIFT ALT + TAB                     → Reveal active window on top
-ALT + XF86AudioLowerVolume          → Volume down precise
-ALT + XF86AudioPlay                 → Next track
-ALT + XF86AudioRaiseVolume          → Volume up precise
-ALT + XF86MonBrightnessDown         → Brightness down precise
-ALT + XF86MonBrightnessUp           → Brightness up precise
-SHIFT ALT + XF86AudioPlay           → Previous track
-SHIFT + XF86AudioMute               → Switch audio output
-SHIFT + XF86AudioPause              → Switch media source
-SHIFT + XF86AudioPlay               → Switch media source
-SHIFT + XF86MonBrightnessDown       → Brightness minimum
-SHIFT + XF86MonBrightnessUp         → Brightness maximum
+SUPER SHIFT ALT + TAB               → Previous window in group  -- remove
+SUPER + mouse_down                  → Scroll active workspace forward  -- remove
+SUPER + mouse_up                    → Scroll active workspace backward  -- remove
+ALT + TAB                           → Reveal active window on top  -- remove
+SHIFT ALT + TAB                     → Reveal active window on top  -- remove
+ALT + XF86AudioLowerVolume          → Volume down precise  -- remove
+ALT + XF86AudioPlay                 → Next track  -- remove
+ALT + XF86AudioRaiseVolume          → Volume up precise  -- remove
+ALT + XF86MonBrightnessDown         → Brightness down precise  -- remove
+ALT + XF86MonBrightnessUp           → Brightness up precise  -- remove
+SHIFT ALT + XF86AudioPlay           → Previous track  -- remove
+SHIFT + XF86AudioMute               → Switch audio output  -- remove
+SHIFT + XF86AudioPause              → Switch media source  -- remove
+SHIFT + XF86AudioPlay               → Switch media source  -- remove
+SHIFT + XF86MonBrightnessDown       → Brightness minimum  -- remove
+SHIFT + XF86MonBrightnessUp         → Brightness maximum  -- remove
 XF86AudioLowerVolume                → Volume down
 XF86AudioMicMute                    → Mute microphone
 XF86AudioMute                       → Mute
@@ -220,5 +220,5 @@ XF86PowerOff                        → Power menu
 XF86TouchpadOff                     → Disable touchpad
 XF86TouchpadOn                      → Enable touchpad
 XF86TouchpadToggle                  → Toggle touchpad
-SUPER ALT + K                       → Tmux keybindings
+SUPER ALT + K                       → Tmux keybindings  -- remove
 SUPER CTRL + K                      → Herdr keybindings -- remove

@@ -16,8 +16,6 @@ SUPER SHIFT + A                     → Audio controls
 SUPER SHIFT + 4                     → Screenshot
 SUPER SHIFT + 5                     → Screenshot (Fullscreen)
 SUPER ALT + RETURN                  → Tmux
-SUPER CTRL + RETURN                 → Herdr
-SUPER SHIFT ALT + B                 → Browser (private)
 ALT + A                             → Switch to workspace A
 ALT + D                             → Switch to workspace D
 ALT + F                             → Switch to workspace F
@@ -30,21 +28,13 @@ SHIFT ALT + H                       → Swap window left
 SHIFT ALT + J                       → Swap window down
 SHIFT ALT + K                       → Swap window up
 SHIFT ALT + L                       → Swap window right
-CTRL ALT + TAB                      → Focus on next monitor
-SHIFT CTRL ALT + TAB                → Focus on previous monitor
 SUPER CTRL + LEFT MOUSE BUTTON      → Move window
 SUPER CTRL + RIGHT MOUSE BUTTON     → Resize window
-SUPER ALT + MINUS                   → Expand window left a little
-SUPER CTRL + MINUS                  → Expand window left a lot
-SUPER SHIFT ALT + EQUAL             → Expand window down a little
 SUPER SHIFT ALT + H                 → Expand window left
 SUPER SHIFT ALT + J                 → Expand window down
 SUPER SHIFT CTRL + EQUAL            → Expand window down a lot
-SUPER ALT + EQUAL                   → Shrink window left a little
-SUPER CTRL + EQUAL                  → Shrink window left a lot
 SUPER SHIFT ALT + K                 → Shrink window up
 SUPER SHIFT ALT + L                 → Shrink window left
-SUPER SHIFT ALT + MINUS             → Shrink window up a little
 SUPER SHIFT CTRL + MINUS            → Shrink window up a lot
 SUPER ALT + S                       → Toggle scratchpad
 SUPER SHIFT ALT + S                 → Move window to scratchpad
@@ -64,39 +54,12 @@ ALT + L                             → Move focus right
 ALT + M                             → Toggle split
 SHIFT ALT + D                       → Download Video from Web App
 SHIFT ALT + L                       → Copy URL from Web App
-SUPER ALT + BRACKETLEFT             → Make webcam overlay smaller
-SUPER ALT + BRACKETRIGHT            → Make webcam overlay larger
-SUPER ALT + Home                    → Save window width
-SUPER ALT + SLASH                   → Monitor scaling down
 SUPER + A                           → Select all
-SUPER CTRL + 1                      → Bar panel 1
-SUPER CTRL + 2                      → Bar panel 2
-SUPER CTRL + 3                      → Bar panel 3
-SUPER CTRL + 4                      → Bar panel 4
-SUPER CTRL + 5                      → Bar panel 5
-SUPER CTRL + 6                      → Bar panel 6
-SUPER CTRL + 7                      → Bar panel 7
-SUPER CTRL + 8                      → Bar panel 8
-SUPER CTRL + 9                      → Bar panel 9
-SUPER CTRL ALT + D                  → Calendar
-SUPER CTRL ALT + Delete             → Toggle laptop display mirroring
 SUPER CTRL ALT + R                  → Show reminders
 SUPER CTRL ALT + W                  → Toggle weather
 SUPER CTRL ALT + Z                  → Reset zoom
-SUPER CTRL + BACKSPACE              → Toggle single-window square aspect
-SUPER CTRL + C                      → Capture menu
-SUPER CTRL + D                      → Display
-SUPER CTRL + Delete                 → Toggle laptop display
-SUPER CTRL + F                      → Tiled full screen
 SUPER CTRL + H                      → Hardware menu
-SUPER CTRL + O                      → Toggle menu
-SUPER CTRL + PERIOD                 → Transcode
-SUPER CTRL + P                      → Power
-SUPER CTRL + PRINT                  → Extract text (OCR) from screenshot
-SUPER CTRL + Q                      → Calculator
-SUPER CTRL + R                      → Set reminder
 SUPER CTRL + SPACE                  → Background switcher
-SUPER CTRL + S                      → Share
 SUPER CTRL + Z                      → Zoom in
 SUPER + D                           → Bookmark
 SUPER + F                           → Find
@@ -106,30 +69,13 @@ SUPER + Q                           → Close active window
 SUPER + R                           → Reload
 SUPER SHIFT + 6                     → Screen recording
 SUPER SHIFT + 8                     → Color picking
-SUPER SHIFT ALT + A                 → Grok
-SUPER SHIFT ALT + E                 → New email
 SUPER SHIFT ALT + F                 → Toggle pseudo window
-SUPER SHIFT ALT + G                 → WhatsApp
-SUPER SHIFT ALT + M                 → Music TUI
 SUPER SHIFT ALT + T                 → Activity
-SUPER SHIFT ALT + X                 → X Post
 SUPER SHIFT + B                     → Bluetooth
-SUPER SHIFT CTRL + A                → Agent
-SUPER SHIFT CTRL + G                → Google Messages
-SUPER SHIFT CTRL + R                → Clear reminders
 SUPER SHIFT + D                     → Display
 SUPER SHIFT + E                     → Emoji picker
-SUPER SHIFT + G                     → Signal
-SUPER SHIFT + M                     → Music
-SUPER SHIFT + N                     → Editor
-SUPER SHIFT + O                     → Obsidian
-SUPER SHIFT + P                     → Google Photos
-SUPER SHIFT + S                     → Google Maps
-SUPER SHIFT + SLASH                 → Passwords
 SUPER SHIFT + SPACE                 → Toggle top bar
 SUPER SHIFT + W                     → WiFi
-SUPER SHIFT + X                     → X
-SUPER SHIFT + Y                     → YouTube
 SUPER + S                           → Save
 SUPER + T                           → New tab
 SUPER + Y                           → Redo
@@ -142,17 +88,6 @@ SUPER ALT + L                       → Move window to group on right
 SUPER ALT + semicolon               → Toggle window grouping
 SUPER ALT + U                       → Next window in group
 SUPER SHIFT ALT + semicolon         → Move active window out of group
-ALT + XF86AudioLowerVolume          → Volume down precise
-ALT + XF86AudioPlay                 → Next track
-ALT + XF86AudioRaiseVolume          → Volume up precise
-ALT + XF86MonBrightnessDown         → Brightness down precise
-ALT + XF86MonBrightnessUp           → Brightness up precise
-SHIFT ALT + XF86AudioPlay           → Previous track
-SHIFT + XF86AudioMute               → Switch audio output
-SHIFT + XF86AudioPause              → Switch media source
-SHIFT + XF86AudioPlay               → Switch media source
-SHIFT + XF86MonBrightnessDown       → Brightness minimum
-SHIFT + XF86MonBrightnessUp         → Brightness maximum
 XF86AudioLowerVolume                → Volume down
 XF86AudioMicMute                    → Mute microphone
 XF86AudioMute                       → Mute
@@ -172,4 +107,3 @@ XF86PowerOff                        → Power menu
 XF86TouchpadOff                     → Disable touchpad
 XF86TouchpadOn                      → Enable touchpad
 XF86TouchpadToggle                  → Toggle touchpad
-SUPER CTRL + K                      → Herdr keybindings
