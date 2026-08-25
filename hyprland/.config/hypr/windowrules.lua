@@ -1,20 +1,3 @@
--- App placement rules.
-
--- Nautilus
-o.window("org.gnome.Nautilus", {
-  float = true,
-  center = true,
-  size = { 1300, 900 },
-})
-
--- mpv
-o.window("mpv", {
-  tag = "-floating-window",
-  float = true,
-  center = true,
-  size = { 1300, 900 },
-})
-
 -- Workspace A
 o.window("^steam_app_.*", { workspace = "1" })
 
@@ -31,3 +14,30 @@ o.window("chrome-chatgpt.com__-Default", { workspace = "3" })
 
 -- Workspace F
 o.window("chromium", { workspace = "4" })
+
+-- App placement rules --------------------------------------
+
+-- Nautilus
+o.window("org.gnome.Nautilus", {
+	float = true,
+	center = true,
+	size = { 1300, 900 },
+})
+
+-- mpv
+o.window("mpv", {
+	tag = "-floating-window",
+	float = true,
+	center = true,
+	size = { 1300, 900 },
+})
+
+-- LocalSend and fzf file picker.
+o.window({
+	class = "^org\\.localsend\\.localsend_app$",
+	title = "^LocalSend$",
+}, {
+	float = true,
+	center = true,
+	size = { 1100, 700 },
+})
