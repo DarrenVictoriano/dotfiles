@@ -1,4 +1,0 @@
-[server]
-show_percentage = false
-max_volume = 250
-style = "./style.css"
