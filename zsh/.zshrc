@@ -164,32 +164,35 @@ setopt HIST_IGNORE_SPACE        # Ignore commands starting with space
 setopt HIST_REDUCE_BLANKS       # Remove unnecessary blanks
 
 
-# Common alias and functions
-[ -f "$HOME/.config/zsh/aliases.zsh" ] && source "$HOME/.config/zsh/aliases.zsh"
-[ -f "$HOME/.config/zsh/func.zsh" ] && source "$HOME/.config/zsh/func.zsh"
-[ -f "$HOME/.config/zsh/eval.zsh" ] && source "$HOME/.config/zsh/eval.zsh"
+# Common and OS-specific config
+zsh_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh"
+zsh_config_names=(aliases func eval)
 
-
-# OS specific
 case "$OSTYPE" in
-  linux*)  
-    [ -f "$HOME/.config/zsh/omarchy-alias.zsh" ] && source "$HOME/.config/zsh/omarchy-alias.zsh"
-    [ -f "$HOME/.config/zsh/omarchy-func.zsh" ] && source "$HOME/.config/zsh/omarchy-func.zsh"
-    [ -f "$HOME/.config/zsh/omarchy-eval.zsh" ] && source "$HOME/.config/zsh/omarchy-eval.zsh"
+  linux*)
+    zsh_config_names+=(omarchy-alias omarchy-func omarchy-eval)
     ;;
-  darwin*) 
-    [ -f "$HOME/.config/zsh/macos-alias.zsh" ] && source "$HOME/.config/zsh/macos-alias.zsh"
-    [ -f "$HOME/.config/zsh/macos-func.zsh" ] && source "$HOME/.config/zsh/macos-func.zsh"
-    [ -f "$HOME/.config/zsh/macos-eval.zsh" ] && source "$HOME/.config/zsh/macos-eval.zsh"
-    
-    # Work config saved in: ~/.config/zsh-local/
-    local_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh-local"
-    for config in aliases.zsh functions.zsh eval.zsh; do
-      [[ -r "$local_config_dir/$config" ]] && source "$local_config_dir/$config"
-    done
-    unset local_config_dir config
+  darwin*)
+    zsh_config_names+=(macos-alias macos-func macos-eval)
     ;;
 esac
+
+# Load zsh config based on OS
+for zsh_config_name in "${zsh_config_names[@]}"; do
+  zsh_config_file="$zsh_config_dir/$zsh_config_name.zsh"
+  [[ -r "$zsh_config_file" ]] && source "$zsh_config_file"
+done
+
+unset zsh_config_dir zsh_config_names zsh_config_name zsh_config_file
+
+# Work config saved in: ~/.config/zsh-local/
+if [[ "$OSTYPE" == darwin* ]]; then
+  local_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh-local"
+  for config in aliases.zsh functions.zsh eval.zsh; do
+    [[ -r "$local_config_dir/$config" ]] && source "$local_config_dir/$config"
+  done
+  unset local_config_dir config
+fi
 
 
 # To customize prompt, run `p10k configure` or edit ~/.config/zsh/p10k.zsh.
