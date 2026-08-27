@@ -1,52 +1,41 @@
 #!/usr/bin/env bash
 
-echo "Installing zsh..."
+set -Eeuo pipefail
 
-if ! omarchy-pkg-add zsh; then
-  echo "Failed to install zsh"
-  exit 1
+BIN_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck source=_bin/lib.sh
+source "$BIN_DIR/lib.sh"
+
+PLATFORM="$(detect_platform)"
+
+if ! command -v zsh >/dev/null 2>&1; then
+  log "Installing Zsh..."
+  if [[ "$PLATFORM" == macos ]]; then
+    BREW="$(activate_homebrew)"
+    "$BREW" install zsh
+  else
+    omarchy-pkg-add zsh
+  fi
 fi
-
-echo "zsh installed."
-
-# ------------------------------------------------------
-# Set Zsh as the default shell (with safety checks)
-# ------------------------------------------------------
 
 ZSH_PATH="$(command -v zsh)"
+[[ -n "$ZSH_PATH" ]] || die "Zsh was not found after installation."
 
-if [ -z "$ZSH_PATH" ]; then
-  echo "Error: zsh not found in PATH."
-  exit 1
-fi
-
-# Ensure zsh is listed in /etc/shells
 if ! grep -Fxq "$ZSH_PATH" /etc/shells; then
-  echo "Adding $ZSH_PATH to /etc/shells..."
-  echo "$ZSH_PATH" | sudo tee -a /etc/shells > /dev/null
+  log "Adding $ZSH_PATH to /etc/shells..."
+  printf '%s\n' "$ZSH_PATH" | sudo tee -a /etc/shells >/dev/null
 fi
 
-# Change default shell if not already zsh
-if [ "$SHELL" != "$ZSH_PATH" ]; then
-  echo "Changing default shell to $ZSH_PATH..."
-  chsh -s "$ZSH_PATH"
-  echo "Default shell changed to zsh."
+if [[ "$PLATFORM" == macos ]]; then
+  current_shell="$(dscl . -read "/Users/$USER" UserShell 2>/dev/null | awk '{print $2}')"
 else
-  echo "Default shell is already zsh."
+  current_shell="$(getent passwd "$USER" | cut -d: -f7)"
 fi
 
-echo "install-zsh.sh completed!"
-
-echo "You need to reboot for this to take effect. Reboot now? [Y/n]?"
-
-read -rp "Reboot now? [y/N] " yn
-
-case $yn in
-    [Yy]* ) 
-        echo "Rebooting..."
-        sudo reboot
-        ;;
-    * ) 
-        echo "Please remember to reboot later for the shell changes to take effect."
-        ;;
-esac
+if [[ "$current_shell" != "$ZSH_PATH" ]]; then
+  log "Changing the login shell to $ZSH_PATH..."
+  chsh -s "$ZSH_PATH"
+  log "The new login shell will be used in your next session."
+else
+  log "Zsh is already the login shell."
+fi

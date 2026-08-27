@@ -1,54 +1,54 @@
 #!/usr/bin/env bash
 
-# Function to install a package on Linux (Arch/Omarchy)
-install_linux_pkg() {
-    local pkg="$1"
+set -Eeuo pipefail
 
-    if [ -z "$pkg" ]; then
-        echo "Error: No package name provided to install_linux_pkg"
-        return 1
+BIN_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)"
+# shellcheck source=_bin/lib.sh
+source "$BIN_DIR/lib.sh"
+
+[[ "$(detect_platform)" == omarchy ]] || die "This script requires Omarchy."
+
+stage="${1:-}"
+
+case "$stage" in
+  packages)
+    declare -a packages=(gamemode lib32-gamemode mangohud lib32-mangohud)
+    declare -a failures=()
+
+    for package in "${packages[@]}"; do
+      if pacman -Q "$package" >/dev/null 2>&1; then
+        log "$package is already installed."
+      elif ! omarchy-pkg-add "$package"; then
+        failures+=("$package")
+      fi
+    done
+
+    if ((${#failures[@]} > 0)); then
+      printf 'Failed Omarchy packages:\n' >&2
+      printf '  - %s\n' "${failures[@]}" >&2
+      exit 1
     fi
+    ;;
+  configure)
+    theme_source="$HOME/.local/state/omarchy/current/theme/neovim.lua"
+    theme_destination="$HOME/.config/nvim/lua/plugins/theme.lua"
 
-    echo "Installing $pkg on Linux..."
-
-    local install_failed=false
-
-    # First try Omarchy / pacman
-    if command -v omarchy-pkg-add &>/dev/null; then
-        if ! omarchy-pkg-add "$pkg"; then
-            echo "Package '$pkg' not found via omarchy-pkg-add or installation failed."
-            install_failed=true
-        else
-            echo "$pkg installed successfully via omarchy-pkg-add."
-            return 0
-        fi
-    fi
-
-    # Fall back to yay (AUR helper)
-    if command -v yay &>/dev/null; then
-        if ! yay -S --noconfirm --needed "$pkg"; then
-            echo "Failed to install $pkg via yay."
-            install_failed=true
-        else
-            echo "$pkg installed successfully via yay."
-            return 0
-        fi
+    if [[ -r "$theme_source" ]]; then
+      if [[ -e "$theme_destination" && ! -L "$theme_destination" ]]; then
+        warn "Refusing to replace non-symlink theme config: $theme_destination"
+        exit 1
+      fi
+      mkdir -p "$(dirname "$theme_destination")"
+      ln -snf "$theme_source" "$theme_destination"
+      log "Enabled the current Omarchy Neovim theme."
     else
-        echo "yay not found. Cannot attempt AUR installation for $pkg."
-        install_failed=true
+      if [[ -L "$theme_destination" && "$(readlink "$theme_destination")" == "$theme_source" ]]; then
+        rm -- "$theme_destination"
+      fi
+      warn "Omarchy has not generated $theme_source; Neovim will use its fallback theme."
     fi
-
-    if [ "$install_failed" = true ]; then
-        echo "Warning: Failed to install $pkg on Linux."
-    fi
-}
-
-# -----------------------
-# Install PKGs
-# -----------------------
-install_linux_pkg "keychain"
-install_linux_pkg "gamemode"
-install_linux_pkg "lib32-gamemode"
-install_linux_pkg "mangohud"
-install_linux_pkg "lib32-mangohud"
-
+    ;;
+  *)
+    die "Usage: install-linux-pkg.sh {packages|configure}"
+    ;;
+esac

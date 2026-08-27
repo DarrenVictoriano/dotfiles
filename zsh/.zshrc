@@ -5,6 +5,16 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 
+if [[ "$OSTYPE" == darwin* ]]; then
+  if command -v brew &> /dev/null; then
+    eval "$(brew shellenv)"
+  elif [[ -x /opt/homebrew/bin/brew ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+  elif [[ -x /usr/local/bin/brew ]]; then
+    eval "$(/usr/local/bin/brew shellenv)"
+  fi
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:$HOME/.local/bin:/usr/local/bin:$PATH
 
@@ -86,7 +96,6 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-history-substring-search
-  # zsh-kubectl-prompt
   vi-mode
 )
 
@@ -95,16 +104,6 @@ ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=23'
 
 # source vi-mode config
 [[ ! -f "$HOME/.config/zsh/vi-mode.zsh" ]] || source "$HOME/.config/zsh/vi-mode.zsh"
-
-# This makes instant-prompt slow
-# ## Parse kubectl promt to only display the context
-# function kubectl_prompt() {
-#     local context
-#     context="${ZSH_KUBECTL_CONTEXT#*_}"
-#     # context=$(echo "$ZSH_KUBECTL_CONTEXT" | cut -d'_' -f2)
-#     [[ -n "$context" ]] && print -r -- "$context"
-#    }
-# RPROMPT='%{$fg[blue]%}($(kubectl_prompt))%{$reset_color%}'
 
 # fzf setup and theme
 if command -v fzf &> /dev/null; then
