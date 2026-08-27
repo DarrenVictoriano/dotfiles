@@ -31,6 +31,8 @@ fi
 
 cd "$TARGET_DIR"
 
+OS_TYPE="$(uname -s)"
+
 # -----------------------------
 # Run common scripts
 # -----------------------------
@@ -55,13 +57,15 @@ echo "Stowing config files"
 bash "$BIN_DIR/stow-config.sh"
 
 # -----------------------------
+# Install mise-managed tools (all OSes)
+# -----------------------------
+echo "Running install-mise-pkgs.sh..."
+bash "$BIN_DIR/install-mise-pkgs.sh"
+
+# -----------------------------
 # Final touch for linux
 # -----------------------------
 if [ "$OS_TYPE" = "Linux" ] && [ -f /etc/arch-release ]; then
-  echo "Running install-mise-pkg.sh..."
-  bash "$BIN_DIR/install-mise-pkg.sh"
-
-
   # symlink dynamic neovim theme
   echo "Symlinking dynamic theming for neovim"
   ln -snf "${HOME}/.local/state/omarchy/current/theme/neovim.lua" "${HOME}/.config/nvim/lua/plugins/theme.lua"

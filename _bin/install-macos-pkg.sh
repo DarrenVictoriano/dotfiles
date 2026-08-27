@@ -80,6 +80,7 @@ install_brew_pkg "nvim"
 install_brew_pkg "hugo"
 install_brew_pkg "imagemagick"
 install_brew_pkg "llvm"
+install_brew_pkg "mise"
 install_brew_pkg "anomalyco/tap/opencode"
 
 # GUI apps
