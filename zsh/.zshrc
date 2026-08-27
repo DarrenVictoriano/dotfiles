@@ -86,7 +86,7 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-history-substring-search
-  zsh-kubectl-prompt
+  # zsh-kubectl-prompt
   vi-mode
 )
 
@@ -130,6 +130,8 @@ bindkey "$terminfo[kcud1]" history-substring-search-down
 
 # Manpages to use nvim
 export MANPAGER='nvim +Man!'
+
+export PRESENTERM_CONFIG_FILE="$HOME/.config/presenterm/config.yaml"
 
 # You may need to manually set your language environment
 # export LANG=en_US.UTF-8
