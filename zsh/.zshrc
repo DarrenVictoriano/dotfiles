@@ -181,6 +181,13 @@ case "$OSTYPE" in
     [ -f "$HOME/.config/zsh/macos-alias.zsh" ] && source "$HOME/.config/zsh/macos-alias.zsh"
     [ -f "$HOME/.config/zsh/macos-func.zsh" ] && source "$HOME/.config/zsh/macos-func.zsh"
     [ -f "$HOME/.config/zsh/macos-eval.zsh" ] && source "$HOME/.config/zsh/macos-eval.zsh"
+    
+    # Work config saved in: ~/.config/zsh-local/
+    local_config_dir="${XDG_CONFIG_HOME:-$HOME/.config}/zsh-local"
+    for config in aliases.zsh functions.zsh eval.zsh; do
+      [[ -r "$local_config_dir/$config" ]] && source "$local_config_dir/$config"
+    done
+    unset local_config_dir config
     ;;
 esac
 
