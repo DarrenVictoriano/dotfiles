@@ -44,25 +44,20 @@ install_oh_my_zsh
 ZSH_CUSTOM="${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}"
 
 install_plugin "https://github.com/romkatv/powerlevel10k.git" \
-               "$ZSH_CUSTOM/themes/powerlevel10k" \
-               "powerlevel10k"
+  "$ZSH_CUSTOM/themes/powerlevel10k" \
+  "powerlevel10k"
 
 install_plugin "https://github.com/zsh-users/zsh-syntax-highlighting.git" \
-               "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" \
-               "zsh-syntax-highlighting"
+  "$ZSH_CUSTOM/plugins/zsh-syntax-highlighting" \
+  "zsh-syntax-highlighting"
 
 install_plugin "https://github.com/zsh-users/zsh-autosuggestions" \
-               "$ZSH_CUSTOM/plugins/zsh-autosuggestions" \
-               "zsh-autosuggestions"
+  "$ZSH_CUSTOM/plugins/zsh-autosuggestions" \
+  "zsh-autosuggestions"
 
 install_plugin "https://github.com/zsh-users/zsh-history-substring-search" \
-               "$ZSH_CUSTOM/plugins/zsh-history-substring-search" \
-               "zsh-history-substring-search"
-
-install_plugin "https://github.com/superbrothers/zsh-kubectl-prompt.git" \
-               "$ZSH_CUSTOM/plugins/zsh-kubectl-prompt" \
-               "zsh-kubectl-prompt"
+  "$ZSH_CUSTOM/plugins/zsh-history-substring-search" \
+  "zsh-history-substring-search"
 
 echo ""
 echo "install-ohmyzsh.sh completed successfully!"
-

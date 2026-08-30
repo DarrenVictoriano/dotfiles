@@ -86,7 +86,6 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-history-substring-search
-  # zsh-kubectl-prompt
   vi-mode
 )
 
