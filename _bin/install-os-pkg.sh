@@ -17,8 +17,8 @@ Linux)
   ;;
 Darwin)
   echo "Detected macOS"
-  echo "Running install-macos.sh..."
-  bash "$BIN_DIR/install-macos.sh"
+  echo "Running install-macos-pkg.sh..."
+  bash "$BIN_DIR/install-macos-pkg.sh"
   ;;
 *)
   echo "Unsupported OS: $OS_TYPE"

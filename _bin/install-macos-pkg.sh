@@ -81,6 +81,7 @@ install_brew_pkg "hugo"
 install_brew_pkg "imagemagick"
 install_brew_pkg "llvm"
 install_brew_pkg "anomalyco/tap/opencode"
+install_brew_pkg "mise"
 
 # GUI apps
 install_brew_cask "ghostty"
