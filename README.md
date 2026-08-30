@@ -1,26 +1,48 @@
-# dotfiles
+# Dotfiles
 
-My personal doffiles for linux and macos
+Personal dotfiles for exactly two supported platforms:
 
-## Pre-requisite
+- Omarchy
+- Apple Silicon macOS
 
-zsh needs to be installed and set as default shell due to the `ohmyzsh`
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/DarrenVictoriano/dotfiles/main/_bin/install-zsh.sh | bash
-```
+Other Linux distributions, plain Arch installations, and Intel Macs are not
+supported.
 
 ## Installation
 
-To install this run this script:
+Run the public bootstrap from a terminal:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/DarrenVictoriano/dotfiles/main/install.sh | bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/DarrenVictoriano/dotfiles/main/install.sh)"
 ```
 
-### bat Theme setup
+The bootstrap performs these foundational steps before running the repository
+setup:
 
-Rebuild the themes for bat when running for the first time.
+- On Omarchy, update Omarchy and system packages through the supported updater.
+- On Apple Silicon macOS, install Homebrew when it is missing.
+- Install or upgrade to the latest stable Bash and Zsh packaged by the platform.
+- Keep Zsh as the login shell without rebooting the machine.
+- Move an existing `$HOME/code/dotfiles` checkout to `dotfiles_bak`, using a
+  timestamped suffix rather than overwriting an existing backup.
+- Clone this repository and its submodules over HTTPS.
+
+Set `DOTFILES_DIR` to use a checkout path other than `$HOME/code/dotfiles`.
+
+The installer may ask for credentials for package installation, `/etc/shells`,
+or `chsh`. Open a new login shell after setup. If the Omarchy update replaced
+components that require a reboot, the installer reports that recommendation but
+does not reboot automatically.
+
+## Work CLIs
+
+kubectl and Google Cloud CLI are intentionally not installed. Their aliases and
+Oh My Zsh plugins remain configured for machines where those tools are installed
+manually.
+
+## Bat Theme
+
+Build the Bat theme cache after the first installation:
 
 ```bash
 bat cache --build

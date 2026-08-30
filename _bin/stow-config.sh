@@ -1,72 +1,92 @@
 #!/usr/bin/env bash
 
+set -euo pipefail
+
+REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+PLATFORM="${1:-${DOTFILES_PLATFORM:-}}"
 CONFIG_HOME="$HOME/.config"
-OS_TYPE="$(uname -s)"
-echo "Running GNU Stow for dotfiles..."
 
-declare -A common_pkgs=(
-  ["bat"]="$CONFIG_HOME/bat"
-  ["ghostty"]="$CONFIG_HOME/ghostty"
-  ["git"]="$CONFIG_HOME/git"
-  ["lazyvim"]="$CONFIG_HOME/nvim"
-  ["tmux"]="$CONFIG_HOME/tmux"
-  ["zsh"]="$CONFIG_HOME/zsh"
-  ["zshrc"]="$HOME/.zshrc"
-  ["presenterm"]="$CONFIG_HOME/presenterm"
-)
+backup_target() {
+  local backup_path counter path timestamp
 
-declare -A linux_pkgs=(
-  ["ghosttymarchy"]="$CONFIG_HOME/ghosttymarchy"
-  ["hyperland"]="$CONFIG_HOME/hypr"
-  ["mise"]="$CONFIG_HOME/mise"
-  ["gamemode"]="$CONFIG_HOME/gamemode.ini"
-  ["omarchy"]="$CONFIG_HOME/omarchy"
-)
+  path="$1"
+  timestamp="$(date +%Y%m%d%H%M%S)"
+  backup_path="${path}.bak.${timestamp}"
+  counter=1
 
-declare -A mac_pkgs=(
-  ["aerospace"]="$CONFIG_HOME/aerospace"
-  ["hammerspoon"]="$CONFIG_HOME/hammerspoon"
-  ["hushlogin"]="$HOME/.hushlogin"
-  ["ideavimrc"]="$HOME/.ideavimrc"
-  ["karabiner"]="$CONFIG_HOME/karabiner"
-)
+  while [ -e "$backup_path" ] || [ -L "$backup_path" ]; do
+    backup_path="${path}.bak.${timestamp}.${counter}"
+    counter=$((counter + 1))
+  done
 
-# Determine which set to use
-declare -A pkgs
-if [ "$OS_TYPE" = "Linux" ] && [ -f /etc/arch-release ]; then
-  for key in "${!common_pkgs[@]}"; do pkgs["$key"]="${common_pkgs[$key]}"; done
-  for key in "${!linux_pkgs[@]}"; do pkgs["$key"]="${linux_pkgs[$key]}"; done
-elif [ "$OS_TYPE" = "Darwin" ]; then
-  for key in "${!common_pkgs[@]}"; do pkgs["$key"]="${common_pkgs[$key]}"; done
-  for key in "${!mac_pkgs[@]}"; do pkgs["$key"]="${mac_pkgs[$key]}"; done
-else
-  echo "Unsupported OS: $OS_TYPE"
-  exit 1
-fi
+  printf 'Backing up %s to %s\n' "$path" "$backup_path"
+  mv "$path" "$backup_path"
+}
 
-# Stow concatenated pkgs
-for key in "${!pkgs[@]}"; do
-  echo "Starting Stow $key"
-  path="${pkgs[$key]}"
+stow_package() {
+  local package="$1" relative_path source_path target_path
+  shift
 
-  if [ -e "$path" ]; then
-    if [ -L "$path" ]; then
-      echo "$path is a symlink, unstowing.."
-      stow -D -t "$HOME" "$key"
+  [ -d "$REPO_DIR/$package" ] || {
+    printf 'Error: Stow package does not exist: %s\n' "$package" >&2
+    return 1
+  }
+
+  printf 'Stowing %s\n' "$package"
+
+  while (($# > 0)); do
+    target_path="$1"
+    relative_path="${target_path#"$HOME"/}"
+    source_path="$REPO_DIR/$package/$relative_path"
+
+    if [ -L "$target_path" ] && [ -e "$source_path" ] && [ "$target_path" -ef "$source_path" ]; then
+      printf 'Keeping managed link %s\n' "$target_path"
+    elif [ -e "$target_path" ] || [ -L "$target_path" ]; then
+      backup_target "$target_path"
     fi
+    shift
+  done
 
-    echo "Checking if target location contains files."
-    echo "Backing up $key: $path"
-    mv "$path" "${path}.bak"
-  else
-    echo "Skipping $key: $path do not exists"
-  fi
+  stow -d "$REPO_DIR" -t "$HOME" "$package"
+}
 
-  echo "Stowing $key"
-  if [ "$key" == "zshrc" ]; then
-    echo "skipping stow for $key because I dont stow this file."
-    continue
-  fi
+stow_common_packages() {
+  stow_package bat "$CONFIG_HOME/bat"
+  stow_package ghostty "$CONFIG_HOME/ghostty"
+  stow_package git "$CONFIG_HOME/git"
+  stow_package lazyvim "$CONFIG_HOME/nvim"
+  stow_package tmux "$CONFIG_HOME/tmux"
+  stow_package zsh "$HOME/.zshrc" "$CONFIG_HOME/zsh"
+  stow_package presenterm "$CONFIG_HOME/presenterm"
+}
 
-  stow -t "$HOME" "$key"
-done
+stow_omarchy_packages() {
+  stow_package ghosttymarchy "$CONFIG_HOME/ghosttymarchy"
+  stow_package hyprland "$CONFIG_HOME/hypr"
+  stow_package mise "$CONFIG_HOME/mise"
+  stow_package gamemode "$CONFIG_HOME/gamemode.ini"
+  stow_package omarchy "$CONFIG_HOME/omarchy"
+}
+
+stow_macos_packages() {
+  stow_package aerospace "$CONFIG_HOME/aerospace"
+  stow_package hammerspoon "$CONFIG_HOME/hammerspoon"
+  stow_package hushlogin "$HOME/.hushlogin"
+  stow_package ideavimrc "$HOME/.ideavimrc"
+  stow_package karabiner "$CONFIG_HOME/karabiner"
+}
+
+case "$PLATFORM" in
+omarchy)
+  stow_common_packages
+  stow_omarchy_packages
+  ;;
+macos)
+  stow_common_packages
+  stow_macos_packages
+  ;;
+*)
+  printf 'Error: Unsupported Stow platform: %s\n' "${PLATFORM:-empty}" >&2
+  exit 1
+  ;;
+esac
