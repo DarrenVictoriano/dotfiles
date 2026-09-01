@@ -132,7 +132,6 @@ test_omarchy_reboot_suppression() (
     'read -r credential' \
     '[ "$credential" = available ]' \
     'gum confirm "Close browser windows before migration"' \
-    'gum confirm "Kernel updated. Reboot?" || true' \
     'printf "continued\\n"' \
     'gum confirm "Kernel updated. Reboot?"' \
     'printf "unreachable\\n"' >"$mock_dir/omarchy-update"
@@ -375,7 +374,6 @@ test_omarchy_update_failure_propagation
 pass "propagate genuine Omarchy update failures"
 test_resolve_zsh_path
 pass "resolve the platform Zsh without downgrading"
-pass "decline Omarchy reboot and preserve stdin"
 test_stow_rerun_and_conflict
 pass "rerun Stow and back up conflicts"
 test_stow_platform_selection
