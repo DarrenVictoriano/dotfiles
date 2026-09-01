@@ -4,6 +4,11 @@
 	name = Darren Victoriano
 	email = darren.victoriano@gmail.com
 
+# Optional local override (e.g. for work email). Untracked and lives
+# outside this repo; silently ignored if the file doesn't exist.
+[include]
+  path = ~/.config/gitwork/config
+
 [pager]
 	branch = false
 	stash = false

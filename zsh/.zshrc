@@ -86,7 +86,6 @@ plugins=(
   zsh-autosuggestions
   zsh-syntax-highlighting
   zsh-history-substring-search
-  # zsh-kubectl-prompt
   vi-mode
 )
 
@@ -170,7 +169,9 @@ zsh_config_names=(aliases func eval)
 
 case "$OSTYPE" in
   linux*)
-    zsh_config_names+=(omarchy-alias omarchy-func omarchy-eval)
+    if [[ -r /etc/os-release ]] && grep -Eq '^ID="?omarchy"?$' /etc/os-release; then
+      zsh_config_names+=(omarchy-alias omarchy-func omarchy-eval)
+    fi
     ;;
   darwin*)
     zsh_config_names+=(macos-alias macos-func macos-eval)
