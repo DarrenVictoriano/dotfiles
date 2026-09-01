@@ -56,6 +56,7 @@ stow_common_packages() {
   stow_package git "$CONFIG_HOME/git"
   stow_package lazyvim "$CONFIG_HOME/nvim"
   stow_package tmux "$CONFIG_HOME/tmux"
+  stow_package mise "$CONFIG_HOME/mise"
   stow_package zsh "$HOME/.zshrc" "$CONFIG_HOME/zsh"
   stow_package presenterm "$CONFIG_HOME/presenterm"
 }
@@ -63,7 +64,6 @@ stow_common_packages() {
 stow_omarchy_packages() {
   stow_package ghosttymarchy "$CONFIG_HOME/ghosttymarchy"
   stow_package hyprland "$CONFIG_HOME/hypr"
-  stow_package mise "$CONFIG_HOME/mise"
   stow_package gamemode "$CONFIG_HOME/gamemode.ini"
   stow_package omarchy "$CONFIG_HOME/omarchy"
 }

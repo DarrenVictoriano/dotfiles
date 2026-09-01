@@ -25,11 +25,26 @@ esac
 # shellcheck source=_bin/install-common-pkg.sh
 source "$BIN_DIR/install-common-pkg.sh"
 
+resolve_zsh_path() {
+  if [ -n "${DOTFILES_ZSH_PATH:-}" ]; then
+    printf '%s\n' "$DOTFILES_ZSH_PATH"
+    return 0
+  fi
+
+  # A direct rerun of this script has no Public Bootstrap environment. Resolve
+  # the package manager's Zsh rather than falling back to $PATH, which would
+  # otherwise downgrade the login shell to the platform's bundled Zsh.
+  case "$PLATFORM" in
+  macos) printf '%s/bin/zsh\n' "$(brew --prefix)" ;;
+  omarchy) printf '%s\n' "$(command -v zsh)" ;;
+  esac
+}
+
 configure_login_shell() {
   local current_shell zsh_path
 
-  zsh_path="${DOTFILES_ZSH_PATH:-$(command -v zsh)}"
-  [ -x "$zsh_path" ] || die "Zsh is not executable at $zsh_path"
+  zsh_path="$(resolve_zsh_path)"
+  [ -x "$zsh_path" ] || die "Zsh is not executable at ${zsh_path:-empty}"
 
   if ! grep -Fxq "$zsh_path" /etc/shells; then
     log "Adding $zsh_path to /etc/shells"
@@ -59,10 +74,10 @@ install_platform_packages
 log "Stowing configuration"
 "${DOTFILES_BASH_PATH:-bash}" "$BIN_DIR/stow-config.sh" "$PLATFORM"
 
-if [ "$PLATFORM" = "omarchy" ]; then
-  log "Installing mise-managed tools"
-  "${DOTFILES_BASH_PATH:-bash}" "$BIN_DIR/install-mise-pkgs.sh"
+log "Installing mise-managed tools"
+"${DOTFILES_BASH_PATH:-bash}" "$BIN_DIR/install-mise-pkgs.sh"
 
+if [ "$PLATFORM" = "omarchy" ]; then
   log "Linking the current Omarchy Neovim theme"
   ln -snf \
     "$HOME/.local/state/omarchy/current/theme/neovim.lua" \

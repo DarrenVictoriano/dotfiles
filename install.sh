@@ -24,7 +24,7 @@ detect_platform() {
   Linux)
     [ -r "$OS_RELEASE_FILE" ] || die "Linux is supported only through Omarchy."
 
-    # shellcheck disable=SC1091
+    # shellcheck disable=SC1090,SC1091
     . "$OS_RELEASE_FILE"
     [ "${ID:-}" = "omarchy" ] || die "Linux is supported only through Omarchy."
     command -v omarchy-version >/dev/null 2>&1 || die "Omarchy tools are unavailable."
@@ -70,6 +70,9 @@ run_omarchy_update() {
   # Omarchy's unattended update skips its initial confirmation. This wrapper
   # declines later reboot confirmations without replacing stdin, which remains
   # available to sudo and other required credential prompts.
+  # The wrapper body is emitted verbatim; its parameters and variables must be
+  # expanded by the generated script, not by this one.
+  # shellcheck disable=SC2016
   printf '%s\n' \
     '#!/usr/bin/env bash' \
     'if [ "${1:-}" = "confirm" ]; then' \
@@ -97,6 +100,10 @@ run_omarchy_update() {
 
   if [ -f "$reboot_marker" ]; then
     export DOTFILES_REBOOT_RECOMMENDED=1
+    # The wrapper declined a reboot on purpose, so Omarchy's nonzero status here
+    # reports our own refusal rather than a failed update. Setup continues and
+    # reports the reboot recommendation once every phase has finished.
+    update_status=0
   fi
 
   rm -f "$gum_command" "$reboot_marker"
@@ -106,14 +113,19 @@ run_omarchy_update() {
 
 install_foundational_tools() {
   local platform="$1"
+  local brew_prefix
 
   case "$platform" in
   omarchy)
     run_omarchy_update
     log "Installing foundational shells and Git"
-    omarchy-pkg-add bash zsh git
-    export DOTFILES_BASH_PATH="$(command -v bash)"
-    export DOTFILES_ZSH_PATH="$(command -v zsh)"
+    # One package per call so a failure names the package that caused it.
+    omarchy-pkg-add bash
+    omarchy-pkg-add zsh
+    omarchy-pkg-add git
+    DOTFILES_BASH_PATH="$(command -v bash)" || die "Bash is missing after installation."
+    DOTFILES_ZSH_PATH="$(command -v zsh)" || die "Zsh is missing after installation."
+    export DOTFILES_BASH_PATH DOTFILES_ZSH_PATH
     ;;
   macos)
     install_homebrew
@@ -123,8 +135,10 @@ install_foundational_tools() {
     brew_install_or_upgrade bash
     brew_install_or_upgrade zsh
     brew_install_or_upgrade git
-    export DOTFILES_BASH_PATH="$(brew --prefix bash)/bin/bash"
-    export DOTFILES_ZSH_PATH="$(brew --prefix zsh)/bin/zsh"
+    brew_prefix="$(brew --prefix)" || die "Homebrew's prefix could not be determined."
+    DOTFILES_BASH_PATH="$brew_prefix/bin/bash"
+    DOTFILES_ZSH_PATH="$brew_prefix/bin/zsh"
+    export DOTFILES_BASH_PATH DOTFILES_ZSH_PATH
     ;;
   esac
 

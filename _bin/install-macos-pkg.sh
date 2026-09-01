@@ -57,7 +57,7 @@ install_platform_packages() {
     bat
     zoxide
     node
-    jesseduffield/lazygit/lazygit
+    lazygit
     shellcheck
     shfmt
     neovim
