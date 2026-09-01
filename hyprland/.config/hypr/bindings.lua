@@ -4,40 +4,46 @@
 -- Redeclared from default/hypr/bindings/clipboard.lua.
 -- Send a CTRL chord without the held SUPER modifier leaking into it.
 local function send_shortcut_once(mods, key)
-  return function()
-    hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
-    hl.timer(function()
-      hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
-    end, { timeout = 50, type = "oneshot" })
-  end
+	return function()
+		hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "down" }))
+		hl.timer(function()
+			hl.dispatch(hl.dsp.send_key_state({ mods = mods, key = key, state = "up" }))
+		end, { timeout = 50, type = "oneshot" })
+	end
 end
 
 local function active_window_is_terminal()
-  local window = hl.get_active_window()
-  if not window then
-    return false
-  end
+	local window = hl.get_active_window()
+	if not window then
+		return false
+	end
 
-  for _, tag in ipairs(window.tags or {}) do
-    if tag:gsub("%*$", "") == "terminal" then
-      return true
-    end
-  end
+	local tags = window.tags
+	if type(tags) == "string" then
+		return tags:gsub("%*$", "") == "terminal"
+	end
 
-  return false
+	for _, tag in ipairs(tags) do
+		if tag:gsub("%*$", "") == "terminal" then
+			return true
+		end
+	end
+
+	return false
 end
 
 local function universal_clipboard_shortcut(default_mods, default_key, terminal_mods, terminal_key)
-  return function()
-    if active_window_is_terminal() then
-      send_shortcut_once(terminal_mods, terminal_key)()
-    else
-      send_shortcut_once(default_mods, default_key)()
-    end
-  end
+	return function()
+		if active_window_is_terminal() then
+			send_shortcut_once(terminal_mods, terminal_key)()
+		else
+			send_shortcut_once(default_mods, default_key)()
+		end
+	end
 end
 
 -- Redeclared from default/hypr/bindings/utilities.lua.
+-- o.bind("SUPER + SHIFT + J", "Apps menu", "omarchy-menu toggle apps")
 o.bind("SUPER + SPACE", "Omarchy menu", "omarchy-menu toggle")
 o.bind("SUPER + K", "Keybindings", "omarchy-menu-keybindings")
 
@@ -65,11 +71,11 @@ o.bind("SUPER + CTRL + ALT + R", "Show reminders", "omarchy-reminder show")
 o.bind("SUPER + CTRL + ALT + W", "Toggle weather", "omarchy-notification-weather")
 
 o.bind("SUPER + CTRL + Z", "Zoom in", function()
-  local zoom = hl.get_config("cursor.zoom_factor") or 1
-  hl.config({ cursor = { zoom_factor = zoom + 1 } })
+	local zoom = hl.get_config("cursor.zoom_factor") or 1
+	hl.config({ cursor = { zoom_factor = zoom + 1 } })
 end)
 o.bind("SUPER + CTRL + ALT + Z", "Reset zoom", function()
-  hl.config({ cursor = { zoom_factor = 1 } })
+	hl.config({ cursor = { zoom_factor = 1 } })
 end)
 
 -- Redeclared from default/hypr/bindings/media.lua.
@@ -78,11 +84,24 @@ o.bind("XF86AudioLowerVolume", "Volume down", "omarchy-audio-output-volume lower
 o.bind("XF86AudioMute", "Mute", "omarchy-audio-output-volume mute-toggle", { locked = true })
 o.bind("XF86AudioMicMute", "Mute microphone", "omarchy-audio-input-mute", { locked = true })
 o.bind("XF86MonBrightnessUp", "Brightness up", "omarchy-brightness-display +5%", { locked = true, repeating = true })
-o.bind("XF86MonBrightnessDown", "Brightness down", "omarchy-brightness-display 5%-", { locked = true, repeating = true })
-o.bind("XF86KbdBrightnessUp", "Keyboard brightness up", "omarchy-brightness-keyboard up",
-  { locked = true, repeating = true })
-o.bind("XF86KbdBrightnessDown", "Keyboard brightness down", "omarchy-brightness-keyboard down",
-  { locked = true, repeating = true })
+o.bind(
+	"XF86MonBrightnessDown",
+	"Brightness down",
+	"omarchy-brightness-display 5%-",
+	{ locked = true, repeating = true }
+)
+o.bind(
+	"XF86KbdBrightnessUp",
+	"Keyboard brightness up",
+	"omarchy-brightness-keyboard up",
+	{ locked = true, repeating = true }
+)
+o.bind(
+	"XF86KbdBrightnessDown",
+	"Keyboard brightness down",
+	"omarchy-brightness-keyboard down",
+	{ locked = true, repeating = true }
+)
 o.bind("XF86KbdLightOnOff", "Keyboard backlight cycle", "omarchy-brightness-keyboard cycle", { locked = true })
 o.bind_toggle("XF86TouchpadToggle", "Toggle touchpad", "touchpad", { locked = true })
 o.bind("XF86TouchpadOn", "Enable touchpad", "omarchy-toggle-touchpad on", { locked = true })
@@ -105,38 +124,55 @@ local selection_layers = 0
 local selection_binds = {}
 
 hl.on("layer.opened", function(layer)
-  if layer.namespace == "selection" then
-    selection_layers = selection_layers + 1
-    if selection_layers == 1 then
-      selection_binds = {
-        hl.bind("RETURN", hl.dsp.exec_cmd("omarchy-capture-region --take-window"),
-          { description = "Capture highlighted window" }),
-        hl.bind("CTRL + RETURN", hl.dsp.exec_cmd("omarchy-capture-region --take-fullscreen"),
-          { description = "Capture entire screen" }),
-        hl.bind("TAB", hl.dsp.exec_cmd("omarchy-capture-region --select-window next"),
-          { description = "Select next window to capture" }),
-        hl.bind("CTRL + TAB", hl.dsp.exec_cmd("omarchy-capture-region --select-window prev"),
-          { description = "Select previous window to capture" }),
-      }
-      for _, direction in ipairs({ "left", "right", "up", "down" }) do
-        table.insert(selection_binds,
-          hl.bind(direction:upper(), hl.dsp.exec_cmd("omarchy-capture-region --select-window " .. direction),
-            { description = "Select window to capture" }))
-      end
-    end
-  end
+	if layer.namespace == "selection" then
+		selection_layers = selection_layers + 1
+		if selection_layers == 1 then
+			selection_binds = {
+				hl.bind(
+					"RETURN",
+					hl.dsp.exec_cmd("omarchy-capture-region --take-window"),
+					{ description = "Capture highlighted window" }
+				),
+				hl.bind(
+					"CTRL + RETURN",
+					hl.dsp.exec_cmd("omarchy-capture-region --take-fullscreen"),
+					{ description = "Capture entire screen" }
+				),
+				hl.bind(
+					"TAB",
+					hl.dsp.exec_cmd("omarchy-capture-region --select-window next"),
+					{ description = "Select next window to capture" }
+				),
+				hl.bind(
+					"CTRL + TAB",
+					hl.dsp.exec_cmd("omarchy-capture-region --select-window prev"),
+					{ description = "Select previous window to capture" }
+				),
+			}
+			for _, direction in ipairs({ "left", "right", "up", "down" }) do
+				table.insert(
+					selection_binds,
+					hl.bind(
+						direction:upper(),
+						hl.dsp.exec_cmd("omarchy-capture-region --select-window " .. direction),
+						{ description = "Select window to capture" }
+					)
+				)
+			end
+		end
+	end
 end)
 
 hl.on("layer.closed", function(layer)
-  if layer.namespace == "selection" and selection_layers > 0 then
-    selection_layers = selection_layers - 1
-    if selection_layers == 0 then
-      for _, keybind in ipairs(selection_binds) do
-        keybind:unbind()
-      end
-      selection_binds = {}
-    end
-  end
+	if layer.namespace == "selection" and selection_layers > 0 then
+		selection_layers = selection_layers - 1
+		if selection_layers == 0 then
+			for _, keybind in ipairs(selection_binds) do
+				keybind:unbind()
+			end
+			selection_binds = {}
+		end
+	end
 end)
 
 -- Application bindings.
@@ -149,6 +185,7 @@ o.bind("SUPER + SHIFT + B", "Bluetooth", "omarchy-shell shell toggle omarchy.blu
 o.bind("SUPER + SHIFT + W", "WiFi", "omarchy-shell shell toggle omarchy.network")
 o.bind("SUPER + SHIFT + A", "Audio controls", "omarchy-shell shell toggle omarchy.audio")
 o.bind("SUPER + SHIFT + D", "Display", "omarchy-shell shell toggle omarchy.monitor")
+o.bind("SUPER + SHIFT + C", "Codex Usage", "omarchy-shell shell toggle omarchy.agents")
 
 -- Omarchy menu.
 -- o.bind("SUPER + SHIFT + J", "Omarchy menu", "omarchy-menu toggle")
@@ -198,31 +235,40 @@ o.bind("ALT + J", "Move focus down", hl.dsp.focus({ direction = "d" }))
 
 -- Workspace movement.
 for index, key in ipairs({ "A", "S", "D", "F" }) do
-  o.bind("ALT + " .. key, "Switch to workspace " .. key, hl.dsp.focus({ workspace = tostring(index) }))
-  o.bind("ALT + SHIFT + " .. key, "Move window to workspace " .. key,
-    hl.dsp.window.move({ workspace = tostring(index), follow = false }))
+	o.bind("ALT + " .. key, "Switch to workspace " .. key, hl.dsp.focus({ workspace = tostring(index) }))
+	o.bind(
+		"ALT + SHIFT + " .. key,
+		"Move window to workspace " .. key,
+		hl.dsp.window.move({ workspace = tostring(index), follow = false })
+	)
 end
 
 -- Swap windows.
 for _, binding in ipairs({
-  { key = "H", direction = "l", label = "left" },
-  { key = "L", direction = "r", label = "right" },
-  { key = "K", direction = "u", label = "up" },
-  { key = "J", direction = "d", label = "down" },
+	{ key = "H", direction = "l", label = "left" },
+	{ key = "L", direction = "r", label = "right" },
+	{ key = "K", direction = "u", label = "up" },
+	{ key = "J", direction = "d", label = "down" },
 }) do
-  o.bind("ALT + SHIFT + " .. binding.key, "Swap window " .. binding.label,
-    hl.dsp.window.swap({ direction = binding.direction }))
+	o.bind(
+		"ALT + SHIFT + " .. binding.key,
+		"Swap window " .. binding.label,
+		hl.dsp.window.swap({ direction = binding.direction })
+	)
 end
 
 -- Resize the active window.
 for _, binding in ipairs({
-  { key = "H", label = "Expand window left", x = -100, y = 0 },
-  { key = "L", label = "Shrink window left", x = 100,  y = 0 },
-  { key = "K", label = "Shrink window up",   x = 0,    y = -100 },
-  { key = "J", label = "Expand window down", x = 0,    y = 100 },
+	{ key = "H", label = "Expand window left", x = -100, y = 0 },
+	{ key = "L", label = "Shrink window left", x = 100, y = 0 },
+	{ key = "K", label = "Shrink window up", x = 0, y = -100 },
+	{ key = "J", label = "Expand window down", x = 0, y = 100 },
 }) do
-  o.bind("SUPER + ALT + SHIFT + " .. binding.key, binding.label,
-    hl.dsp.window.resize({ x = binding.x, y = binding.y, relative = true }))
+	o.bind(
+		"SUPER + ALT + SHIFT + " .. binding.key,
+		binding.label,
+		hl.dsp.window.resize({ x = binding.x, y = binding.y, relative = true })
+	)
 end
 
 -- Capture controls.
@@ -236,16 +282,23 @@ o.bind("SUPER + SHIFT + BACKSPACE", "Toggle window transparency", "omarchy-hyprl
 
 -- Window groups.
 o.bind("SUPER + ALT + semicolon", "Toggle window grouping", hl.dsp.group.toggle())
-o.bind("SUPER + ALT + SHIFT + semicolon", "Move active window out of group", hl.dsp.window.move({ out_of_group = true }))
+o.bind(
+	"SUPER + ALT + SHIFT + semicolon",
+	"Move active window out of group",
+	hl.dsp.window.move({ out_of_group = true })
+)
 
 for _, binding in ipairs({
-  { key = "H", direction = "l", label = "left" },
-  { key = "L", direction = "r", label = "right" },
-  { key = "K", direction = "u", label = "top" },
-  { key = "J", direction = "d", label = "bottom" },
+	{ key = "H", direction = "l", label = "left" },
+	{ key = "L", direction = "r", label = "right" },
+	{ key = "K", direction = "u", label = "top" },
+	{ key = "J", direction = "d", label = "bottom" },
 }) do
-  o.bind("SUPER + ALT + " .. binding.key, "Move window to group on " .. binding.label,
-    hl.dsp.window.move({ into_group = binding.direction }))
+	o.bind(
+		"SUPER + ALT + " .. binding.key,
+		"Move window to group on " .. binding.label,
+		hl.dsp.window.move({ into_group = binding.direction })
+	)
 end
 
 o.bind("SUPER + ALT + U", "Next window in group", hl.dsp.group.next())
@@ -253,5 +306,8 @@ o.bind("SUPER + ALT + I", "Previous window in group", hl.dsp.group.prev())
 
 -- Scratchpad.
 o.bind("SUPER + ALT + S", "Toggle scratchpad", hl.dsp.workspace.toggle_special("scratchpad"))
-o.bind("SUPER + ALT + SHIFT + S", "Move window to scratchpad",
-  hl.dsp.window.move({ workspace = "special:scratchpad", follow = false }))
+o.bind(
+	"SUPER + ALT + SHIFT + S",
+	"Move window to scratchpad",
+	hl.dsp.window.move({ workspace = "special:scratchpad", follow = false })
+)

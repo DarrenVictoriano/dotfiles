@@ -42,6 +42,12 @@
         "aliases": ["weather", "forecast", "temperature"],
         "action": "omarchy notification weather",
     },
+    "trigger.date-time": {
+        "icon": "󰃭",
+        "label": "Date & Time",
+        "description": "Open the calendar and date/time panel",
+        "action": "omarchy-shell shell toggle omarchy.clock",
+    },
     "trigger.hardware.bluetooth-controls": {
         "icon": "󰂯",
         "label": "Bluetooth Menu",
