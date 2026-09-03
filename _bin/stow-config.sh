@@ -59,6 +59,7 @@ stow_common_packages() {
   stow_package tmux "$CONFIG_HOME/tmux"
   stow_package zsh "$HOME/.zshrc" "$CONFIG_HOME/zsh"
   stow_package presenterm "$CONFIG_HOME/presenterm"
+  stow_package yamlfmt "$CONFIG_HOME/yamlfmt"
 }
 
 stow_omarchy_packages() {
