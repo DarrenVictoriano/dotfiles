@@ -247,6 +247,7 @@ test_stow_platform_selection() (
     [ -L "$test_home/.config/bat" ]
     [ -L "$test_home/.config/nvim" ]
     [ -L "$test_home/.config/mise" ]
+    [ -L "$test_home/.config/yamlfmt" ]
     [ -L "$test_home/.zshrc" ]
 
     case "$platform" in
