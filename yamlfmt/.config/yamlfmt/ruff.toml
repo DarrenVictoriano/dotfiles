@@ -1,0 +1,44 @@
+# Ruff 0.16+ configuration
+# https://docs.astral.sh/ruff/configuration/
+
+target-version = "py311" # matches requires-python = ">=3.11,<3.12"
+line-length = 120        # matches robotidy.toml line_length
+
+[lint]
+select = [
+  "E",   # pycodestyle errors
+  "W",   # pycodestyle warnings
+  "F",   # pyflakes (undefined names, unused imports, etc.)
+  "I",   # isort (import ordering)
+  "B",   # flake8-bugbear (likely bugs and design issues)
+  "C4",  # flake8-comprehensions (simplify comprehensions)
+  "UP",  # pyupgrade (modernize Python syntax for 3.11+)
+  "RUF", # ruff-specific rules
+]
+ignore = [
+  "E501", # line too long -- handled by formatter
+  "B008", # do not perform function calls in default arguments
+  "B904", # raise without `from` inside except -- common in RF keyword libs
+  "C408",
+]
+
+# Don't auto-fix these -- review manually
+unfixable = [
+  # "F401", # unused imports -- may be RF keyword re-exports, remove with care
+]
+
+[lint.isort]
+known-first-party = [
+  "lib",
+  "keywords",
+  "tests",
+  "scripts",
+  "service_auth",
+  "udpcli",
+]
+force-sort-within-sections = true
+
+[format]
+quote-style = "double"
+indent-style = "space"
+line-ending = "lf"

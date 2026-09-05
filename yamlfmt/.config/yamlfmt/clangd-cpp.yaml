@@ -1,0 +1,20 @@
+CompileFlags:
+  Remove:
+    - "-std=*"
+  Add:
+    - "-std=c++23"
+    - "-Wall"
+    - "-Wextra"
+    - "-Wpedantic"
+    - "-Wconversion"
+    - "-Wsign-conversion"
+    - "-Wshadow"
+    - "-Wformat=2"
+    - "-Wundef"
+    - "-Wnon-virtual-dtor"
+    - "-Wold-style-cast"
+    - "-Woverloaded-virtual"
+
+Diagnostics:
+  UnusedIncludes: Strict
+  MissingIncludes: Strict

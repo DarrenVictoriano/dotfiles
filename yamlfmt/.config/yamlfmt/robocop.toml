@@ -1,0 +1,25 @@
+[tool.robocop.format]
+line-length = 120
+indent = 4
+space-count = 2
+configure = [
+  "OrderTags.enabled=True",
+  "AlignKeywordsSection.alignment_type=auto",
+  "AlignKeywordsSection.align_settings_separately=False",
+  "AlignKeywordsSection.align_comments=True",
+  "AlignSettingsSection.argument_indent=4",
+  "AlignTestCasesSection.alignment_type=auto",
+  "NormalizeNewLines.consecutive_lines=0",
+  "NormalizeSeparators.align_new_line=False",
+  "NormalizeAssignments.equal_sign_type=equal_sign",
+  "NormalizeTags.normalize_case=False",
+]
+
+[tool.robocop.lint]
+ignore = [
+  "missing-doc-keyword",       # DOC01
+  "missing-doc-test-case",     # DOC02
+  "missing-doc-suite",         # DOC03
+  "missing-doc-resource-file", # DOC04
+]
+configure = ["print_issues.output_format=simple"]
