@@ -53,7 +53,7 @@ o.bind("SUPER + V", "Universal paste", universal_clipboard_shortcut("CTRL", "V",
 o.bind("SUPER + X", "Universal cut", send_shortcut_once("CTRL", "X"))
 
 -- Redeclared from default/hypr/bindings/applications.lua.
-o.bind("SUPER + ALT + RETURN", "Tmux", { omarchy = "terminal-tmux" })
+o.bind("SUPER + ALT + RETURN", "Tmux", "omarchy-launch-terminal tmux new-session -A -s zsh")
 
 -- Redeclared from default/hypr/bindings/utilities.lua.
 o.bind("SUPER + comma", "Dismiss last notification", "omarchy-shell notifications dismissOne")
