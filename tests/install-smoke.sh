@@ -315,10 +315,10 @@ find . -type f -exec touch "$target_dir/{}" \;
 MOCK
   chmod +x "$mock_dir/stow"
 
-  # chsh and sudo must never run for real; getent/dscl report the old shell so
-  # configure_login_shell always reaches the change branch.
+  # Host-level changes must never run for real; getent/dscl report the old shell
+  # so configure_login_shell always reaches the change branch.
   local command_name
-  for command_name in omarchy-pkg-add brew chsh sudo curl git; do
+  for command_name in omarchy-pkg-add brew chsh sudo curl git defaults killall; do
     cp "$mock_dir/record" "$mock_dir/$command_name"
   done
   printf '%s\n' '#!/usr/bin/env bash' 'printf "root:x:0:0::/root:/bin/sh\n"' >"$mock_dir/getent"
@@ -350,6 +350,10 @@ test_setup_runs_mise_on_both_platforms() (
     # mise must run on macOS too, not just Omarchy.
     grep -Fxq mise "$test_home/phases"
     grep -Fxq stow "$test_home/phases"
+    if [ "$platform" = macos ]; then
+      grep -Fxq defaults "$test_home/phases"
+      grep -Fxq killall "$test_home/phases"
+    fi
   done
 )
 
