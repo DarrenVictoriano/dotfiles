@@ -1,4 +1,7 @@
 BasedOnStyle: Google
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterFunction: true
 AllowShortFunctionsOnASingleLine: None
 AllowShortIfStatementsOnASingleLine: Never
 AllowShortLoopsOnASingleLine: false
