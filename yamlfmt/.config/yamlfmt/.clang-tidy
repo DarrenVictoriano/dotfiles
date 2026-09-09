@@ -30,3 +30,5 @@ Checks: >
   -bugprone-unsafe-functions
 WarningsAsErrors: ""
 HeaderFilterRegex: ".*"
+ExtraArgs:
+  - -std=c23

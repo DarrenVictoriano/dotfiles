@@ -53,7 +53,7 @@ o.bind("SUPER + V", "Universal paste", universal_clipboard_shortcut("CTRL", "V",
 o.bind("SUPER + X", "Universal cut", send_shortcut_once("CTRL", "X"))
 
 -- Redeclared from default/hypr/bindings/applications.lua.
-o.bind("SUPER + ALT + RETURN", "Tmux", { omarchy = "terminal-tmux" })
+o.bind("SUPER + ALT + RETURN", "Tmux", "omarchy-launch-terminal tmux new-session -A -s zsh")
 
 -- Redeclared from default/hypr/bindings/utilities.lua.
 o.bind("SUPER + comma", "Dismiss last notification", "omarchy-shell notifications dismissOne")
@@ -210,7 +210,7 @@ o.bind("SUPER + Y", "Redo", send_shortcut_once("CTRL", "Y"))
 o.bind("SUPER + R", "Reload", send_shortcut_once("CTRL", "R"))
 o.bind("SUPER + S", "Save", send_shortcut_once("CTRL", "S"))
 o.bind("SUPER + D", "Bookmark", send_shortcut_once("CTRL", "D"))
-o.bind("SUPER + mouse:272", "Open in new tab", "hyprctl dispatch sendshortcut CTRL mouse:272 active", { mouse = true })
+o.bind("SUPER + mouse:272", "Open in new tab", hl.dsp.send_shortcut({ mods = "CTRL", key = "mouse:272" }))
 o.bind("SUPER + SHIFT + V", "Clipboard manager", "omarchy-shell shell toggle omarchy.clipboard")
 o.bind("SUPER + SHIFT + E", "Emoji picker", "omarchy-shell shell toggle omarchy.emojis")
 
