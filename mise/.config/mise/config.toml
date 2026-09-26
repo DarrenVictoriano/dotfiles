@@ -4,3 +4,6 @@ go = "latest"
 node = "lts"
 opencode = "latest"
 python = "latest"
+
+[settings.upgrade]
+auto_prune = false
