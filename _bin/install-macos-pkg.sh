@@ -55,6 +55,7 @@ install_platform_packages() {
     ripgrep
     eza
     bat
+    leaf-markdown-viewer
     zoxide
     node
     lazygit

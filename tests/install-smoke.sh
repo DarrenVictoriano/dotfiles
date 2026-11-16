@@ -11,6 +11,15 @@ REPO_DIR="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
 TEST_ROOT="$(mktemp -d "${TMPDIR:-/tmp}/dotfiles-install.XXXXXX")"
 trap 'rm -rf "$TEST_ROOT"' EXIT
 
+# The macOS setup test must never write through to the host's real defaults.
+# MJConfigFile is the one value derived from $HOME, so a leak points
+# Hammerspoon at a deleted temp directory.
+read_hammerspoon_config() {
+  [ "$(uname -s)" = Darwin ] || return 0
+  defaults read org.hammerspoon.Hammerspoon MJConfigFile 2>/dev/null || true
+}
+HOST_HAMMERSPOON_CONFIG="$(read_hammerspoon_config)"
+
 pass() {
   printf 'ok - %s\n' "$1"
 }
@@ -109,6 +118,44 @@ test_optional_failure_summary() (
   install_common_packages
   ((${#OPTIONAL_FAILURES[@]} == 1))
   ! report_optional_failures >/dev/null 2>&1
+)
+
+# Platform installers invoke these mocks indirectly through run_optional.
+# shellcheck disable=SC2329
+test_leaf_homebrew_installation() (
+  local package_log="$TEST_ROOT/leaf-homebrew"
+
+  source "$REPO_DIR/_bin/lib.sh"
+  source "$REPO_DIR/_bin/install-macos-pkg.sh"
+  brew() {
+    [ "$1" != list ] || return 1
+    printf '%s\n' "$*" >>"$package_log"
+  }
+  apply_macos_defaults() { return 0; }
+
+  install_platform_packages
+  grep -Fxq 'install leaf-markdown-viewer' "$package_log"
+)
+
+# shellcheck disable=SC2329
+test_leaf_aur_installation() (
+  local package_log="$TEST_ROOT/leaf-aur"
+
+  source "$REPO_DIR/_bin/lib.sh"
+  source "$REPO_DIR/_bin/install-omarchy-pkg.sh"
+  omarchy-pkg-add() { printf 'omarchy-pkg-add %s\n' "$*" >>"$package_log"; }
+  yay() { printf 'yay %s\n' "$*" >>"$package_log"; }
+
+  install_platform_packages
+  grep -Fxq 'yay -S --needed --noconfirm leaf-markdown-viewer' "$package_log"
+  if grep -Fq 'omarchy-pkg-add leaf-markdown-viewer' "$package_log"; then
+    return 1
+  fi
+
+  yay() { return 1; }
+  install_platform_packages
+  ((${#OPTIONAL_FAILURES[@]} == 1))
+  [ "${OPTIONAL_FAILURES[0]}" = 'install AUR package leaf-markdown-viewer' ]
 )
 
 write_gum_mock() {
@@ -217,7 +264,8 @@ test_stow_rerun_and_conflict() (
   }
 
   test_home="$TEST_ROOT/home"
-  mkdir -p "$test_home/.config"
+  mkdir -p "$test_home/.config/leaf"
+  printf 'theme = "ocean"\n' >"$test_home/.config/leaf/config.toml"
   ln -s /tmp/unrelated "$test_home/.config/bat"
 
   HOME="$test_home" bash "$REPO_DIR/_bin/stow-config.sh" macos >/dev/null
@@ -227,6 +275,10 @@ test_stow_rerun_and_conflict() (
   ((${#backup[@]} == 1))
   [ -L "${backup[0]}" ]
   [ -L "$test_home/.config/bat" ]
+  backup=("$test_home"/.config/leaf.bak.*)
+  ((${#backup[@]} == 1))
+  grep -Fxq 'theme = "ocean"' "${backup[0]}/config.toml"
+  [ -L "$test_home/.config/leaf" ]
   [ -L "$test_home/.zshrc" ]
 )
 
@@ -246,6 +298,9 @@ test_stow_platform_selection() (
     # Common packages land on both platforms, mise included.
     [ -L "$test_home/.config/bat" ]
     [ -L "$test_home/.config/nvim" ]
+    [ -L "$test_home/.config/leaf" ]
+    [ "$test_home/.config/leaf/config.toml" -ef "$REPO_DIR/leaf/.config/leaf/config.toml" ]
+    [ "$test_home/.config/leaf/themes/tokyo-night.toml" -ef "$REPO_DIR/leaf/.config/leaf/themes/tokyo-night.toml" ]
     [ -L "$test_home/.config/mise" ]
     [ -L "$test_home/.config/yamlfmt" ]
     [ -L "$test_home/.zshrc" ]
@@ -318,7 +373,7 @@ MOCK
   # Host-level changes must never run for real; getent/dscl report the old shell
   # so configure_login_shell always reaches the change branch.
   local command_name
-  for command_name in omarchy-pkg-add brew chsh sudo curl git defaults killall; do
+  for command_name in omarchy-pkg-add yay brew chsh sudo curl git defaults killall; do
     cp "$mock_dir/record" "$mock_dir/$command_name"
   done
   printf '%s\n' '#!/usr/bin/env bash' 'printf "root:x:0:0::/root:/bin/sh\n"' >"$mock_dir/getent"
@@ -357,6 +412,17 @@ test_setup_runs_mise_on_both_platforms() (
   done
 )
 
+test_host_defaults_untouched() (
+  local current
+
+  current="$(read_hammerspoon_config)"
+  [ "$current" = "$HOST_HAMMERSPOON_CONFIG" ] || {
+    printf 'Hammerspoon MJConfigFile changed from %s to %s\n' \
+      "${HOST_HAMMERSPOON_CONFIG:-unset}" "${current:-unset}" >&2
+    return 1
+  }
+)
+
 test_omarchy_detection
 pass "detect Omarchy"
 test_apple_silicon_detection
@@ -373,6 +439,10 @@ test_critical_failure_propagation
 pass "propagate critical failures"
 test_optional_failure_summary
 pass "summarize optional failures"
+test_leaf_homebrew_installation
+pass "install Leaf through Homebrew"
+test_leaf_aur_installation
+pass "install Leaf through yay and report optional failures"
 test_omarchy_reboot_suppression
 pass "continue after declining an Omarchy reboot"
 test_omarchy_update_failure_propagation
@@ -385,3 +455,5 @@ test_stow_platform_selection
 pass "stow the right packages per platform"
 test_setup_runs_mise_on_both_platforms
 pass "run mise on both platforms"
+test_host_defaults_untouched
+pass "leave host macOS defaults untouched"

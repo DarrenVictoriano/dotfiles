@@ -18,4 +18,6 @@ install_platform_packages() {
   for package in "${packages[@]}"; do
     run_optional "install Omarchy package $package" install_platform_package "$package"
   done
+
+  run_optional "install AUR package leaf-markdown-viewer" yay -S --needed --noconfirm leaf-markdown-viewer
 }
