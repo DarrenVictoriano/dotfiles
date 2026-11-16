@@ -55,6 +55,7 @@ stow_common_packages() {
   stow_package ghostty "$CONFIG_HOME/ghostty"
   stow_package git "$CONFIG_HOME/git"
   stow_package lazyvim "$CONFIG_HOME/nvim"
+  stow_package leaf "$CONFIG_HOME/leaf"
   stow_package mise "$CONFIG_HOME/mise"
   stow_package tmux "$CONFIG_HOME/tmux"
   stow_package zsh "$HOME/.zshrc" "$CONFIG_HOME/zsh"
